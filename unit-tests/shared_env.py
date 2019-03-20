@@ -1,6 +1,25 @@
+#!/usr/bin/env python3
+
 """
 shared environment unit-test.
 """
+
+###
+### SETUP PATHS
+###
+
+import os
+import sys
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+INCLUDE_DIR = os.path.join(BASE_DIR, '..', 'include')
+LIB_DIR = os.path.join(BASE_DIR, '..', 'lib')
+sys.path.append(INCLUDE_DIR)
+sys.path.append(LIB_DIR)
+
+################################################################################
+################################################################################
+################################################################################
 
 from mathsat import * # pylint: disable=unused-wildcard-import,wildcard-import
 
