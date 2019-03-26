@@ -3,9 +3,9 @@ High level wrapper for OMT functionalities in the
 mathsat library.
 """
 
+import time
 from contextlib import contextmanager
 from mathsat import * # pylint: disable=unused-wildcard-import,wildcard-import
-
 
 ###
 ### Config Generator
@@ -790,6 +790,46 @@ def dump_stats(env):
         stats = msat_objective_get_search_stats(env, obj)
         print(stats)
     msat_destroy_objective_iterator(obj_iter)
+
+###
+### Timer() -- sets a search timeout
+###
+
+class Timer(object): # pylint: disable=too-few-public-methods,locally-disabled
+    """A simple timer object."""
+
+    def __init__(self, timeout):
+        """
+        Timer Constructor.
+
+        :param timeout: the number of seconds before a timeout.
+        """
+        self._timeout = timeout
+        self._started = False
+        self._start = 0.0
+        self._end = 0.0
+
+    def __call__(self):
+        """
+        Callback function.
+
+        :returns: non-zero upon timeout.
+        """
+        now = time.time()
+        if not self._started:
+            self._started = now
+        self._end = now
+        ret = 0
+        if self._end - self._started > self._timeout:
+            ret = 1
+        return ret
+
+    def reset(self):
+        """
+        Reset the timer.
+        """
+        self._started = False
+        return
 
 ###
 ###

@@ -22,7 +22,6 @@ sys.path.append(LIB_DIR)
 ################################################################################
 
 from wrapper import * # pylint: disable=unused-wildcard-import,wildcard-import
-import time
 
 ###
 ### DATA
@@ -50,44 +49,8 @@ HARD = [
 SOFT = {}
 
 ###
-### LOAD_OBJECTIVE_MODEL UNIT-TEST
+### TIMEOUT UNIT-TEST
 ###
-
-class Timer():
-    """A simple timer object."""
-
-    def __init__(self, timeout):
-        """
-        Timer Constructor.
-
-        :param timeout: the number of seconds before a timeout.
-        """
-        self._timeout = timeout
-        self._started = False
-        self._start = 0.0
-        self._end = 0.0
-
-    def __call__(self):
-        """
-        Callback function.
-
-        :returns: non-zero upon timeout.
-        """
-        now = time.time()
-        if not self._started:
-            self._started = now
-        self._end = now
-        if self._end - self._started > self._timeout:
-            return 1
-        else:
-            return 0
-
-    def reset(self):
-        """
-        Reset the timer.
-        """
-        self._started = False
-        return
 
 with create_config(OPTIONS) as cfg:
     with create_env(cfg) as env:
@@ -107,7 +70,6 @@ with create_config(OPTIONS) as cfg:
 
             load_model(env, obj)
             dump_model(env)
-
 
 
 #
