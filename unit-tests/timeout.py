@@ -59,6 +59,7 @@ with create_config(OPTIONS) as cfg:
         assert_string_formulas(env, HARD)
         assert_string_soft_formulas_dict(env, SOFT)
 
+        # set a timeout of 3.0 seconds
         callback = Timer(3.0)
         msat_set_termination_test(env, callback)
 
