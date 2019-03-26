@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-load-objective-model unit-test.
+timeout unit-test.
 """
 
 ###
