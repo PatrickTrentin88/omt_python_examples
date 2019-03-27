@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-adaptive unit-test.
+adaptive search unit-test.
 """
 
 ###
