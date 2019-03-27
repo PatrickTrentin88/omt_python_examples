@@ -34,18 +34,6 @@ OPTIONS = {
     "opt.priority"     : "box",
 }
 
-DECLS = {
-    "bool"     : (),
-    "int"      : (),
-    "rational" : (),
-    "bv"       : (),
-    "fp"       : ()
-}
-
-HARD = []
-
-SOFT = {}
-
 ###
 ### TIMEOUT UNIT-TEST
 ###
@@ -53,11 +41,7 @@ SOFT = {}
 with create_config(OPTIONS) as cfg:
     with create_env(cfg) as env:
 
-        make_all_vars(env, DECLS)
-        assert_string_formulas(env, HARD)
-        assert_string_soft_formulas_dict(env, SOFT)
-
-        # load non-trivial formula from file
+        # load non-trivial formula directly from file
         with open(os.path.join(BASE_DIR, 'smt2', 'bacp-19.smt2'), 'r') as f:
             TERM = msat_from_smtlib2(env, f.read())
             assert not MSAT_ERROR_TERM(TERM)
