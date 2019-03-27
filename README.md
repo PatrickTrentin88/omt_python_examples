@@ -3,9 +3,11 @@
 This is a collection of **Optimization Modulo Theories** examples
 using the **Python API** interface of `OptiMathSAT`.
 
+
 # REQUIREMENTS
 
 This project requires **Python 3.X** and [**gmplib**](https://gmplib.org/).
+
 
 # BUILDING
 
@@ -28,15 +30,23 @@ For convenience, you may want to permanently add both of these locations to your
 This step is useful to avoid import complaints with `pylint3`. The unit-test
 scripts, however, are expected to work even without performing this step.
 
+
 # USAGE
 
 Run all unit-test examples with
 
     ~$ python3 run.py
 
-or some unit-test example of interest with
+Each unit-test can also be executed on its own.
+For instance, the unit-test `simple_omt.py` can
+be run with
 
     ~$ ./unit-tests/simple_omt.py
+
+or with
+
+    ~$ python3 unit-tests/simple_omt.py
+
     
 # NOTES
 
