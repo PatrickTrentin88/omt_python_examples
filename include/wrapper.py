@@ -658,7 +658,20 @@ def get_objectives_pretty(env):
         cost_fun = msat_objective_get_term(env, obj)
         assert not MSAT_ERROR_TERM(cost_fun)
         value = get_objective_value_pretty_string(env, obj, MSAT_OPTIMUM)
-        print("\t({} {})".format(str(cost_fun), value))
+        # Handle partial/approx result
+        extra = ""
+        res = msat_objective_result(env, obj)
+        if res == MSAT_OPT_SAT_PARTIAL: # timeout
+            lb = get_objective_value_pretty_string(env, obj, MSAT_FINAL_LOWER)
+            ub = get_objective_value_pretty_string(env, obj, MSAT_FINAL_UPPER)
+            extra = ", partial search, range: [ {}, {} ]".format(lb, ub)
+        elif res == MSAT_OPT_SAT_APPROX: # absolute/tolerance threshold
+            lb = get_objective_value_pretty_string(env, obj, MSAT_FINAL_LOWER)
+            ub = get_objective_value_pretty_string(env, obj, MSAT_FINAL_UPPER)
+            extra = ", termination threshold, range: [ {}, {} ]".format(lb, ub)
+        else:
+            extra = ""
+        print("\t({} {}){}".format(str(cost_fun), value, extra))
     print(")")
     msat_destroy_objective_iterator(obj_iter)
 
