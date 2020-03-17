@@ -5,7 +5,7 @@ mathsat library.
 
 import time
 from contextlib import contextmanager
-from mathsat import * # pylint: disable=unused-wildcard-import,wildcard-import
+from optimathsat import * # pylint: disable=unused-wildcard-import,wildcard-import
 
 ###
 ### Config Generator

@@ -11,15 +11,15 @@ This project requires **Python 3.X** and [**gmplib**](https://gmplib.org/).
 
 # BUILDING
 
-Download the package of the latest version of `OptiMathSAT` (v. `1.6.2` or superior)
+Download the package of the latest version of `OptiMathSAT` (v. `1.6.4` or superior)
 inside the directory `optimathsat`, and unpack it. Then, run the `build.py` script
 as follows:
 
     ~$ python3 build.py
 
 This command builds the **Python API** of `OptiMathSAT`, and places the generated
-`mathsat.py` file in the `include` directory and the generated `_mathsat.so` file
-in the `lib` directory.
+`optimathsat.py` file in the `include` directory and the generated `_optimathsat.so`
+file in the `lib` directory.
 
 For convenience, you may want to permanently add both of these locations to your
 `PYTHONPATH` environment variable:

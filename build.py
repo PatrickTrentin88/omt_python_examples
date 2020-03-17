@@ -33,11 +33,11 @@ subprocess.check_call(['python3', "setup.py", "build"], cwd=BUILD_PATH)
 ### Copy Python LIB Files
 ###
 
-SRC_MATHSAT_LIB = os.path.join(BUILD_PATH, "mathsat.py")
+SRC_MATHSAT_LIB = os.path.join(BUILD_PATH, "optimathsat.py")
 SRC_MATHSAT_SO = glob.glob(os.path.join(BUILD_PATH, "build", "lib.*", "*.so"))[0]
 
-DST_MATHSAT_LIB = os.path.join(BASE_DIR, "include", "mathsat.py")
-DST_MATHSAT_SO = os.path.join(BASE_DIR, "lib", "_mathsat.so")
+DST_MATHSAT_LIB = os.path.join(BASE_DIR, "include", "optimathsat.py")
+DST_MATHSAT_SO = os.path.join(BASE_DIR, "lib", "_optimathsat.so")
 
 copyfile(SRC_MATHSAT_LIB, DST_MATHSAT_LIB)
 copyfile(SRC_MATHSAT_SO, DST_MATHSAT_SO)

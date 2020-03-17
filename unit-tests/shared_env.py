@@ -21,7 +21,7 @@ sys.path.append(LIB_DIR)
 ################################################################################
 ################################################################################
 
-from mathsat import * # pylint: disable=unused-wildcard-import,wildcard-import
+from optimathsat import * # pylint: disable=unused-wildcard-import,wildcard-import
 
 # NOTE: the instance of shared environment
 #       must ALWAYS be deleted BEFORE the
