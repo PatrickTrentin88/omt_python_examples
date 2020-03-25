@@ -29,7 +29,7 @@ from wrapper import * # pylint: disable=unused-wildcard-import,wildcard-import
 
 OPTIONS = {
     "model_generation" : "true",
-    "opt.soft_timeout" : "true",
+    "opt.soft_timeout" : "false",
     "opt.verbose"      : "true",
     "opt.priority"     : "box",
 }
