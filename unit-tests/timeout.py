@@ -47,7 +47,7 @@ with create_config(OPTIONS) as cfg:
             assert not MSAT_ERROR_TERM(TERM)
             msat_assert_formula(env, TERM)
 
-        # set a timeout of 3.0 seconds
+        # set a timeout of 2.0 seconds
         CALLBACK = Timer(2.0)
         msat_set_termination_test(env, CALLBACK)
 
