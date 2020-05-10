@@ -80,9 +80,9 @@ with create_config(OPTIONS) as cfg:
 #   a : 3
 #   b : 1
 # sat
-#   a : 1
-#   b : 3
-# sat
 #   a : 2
 #   b : 2
+# sat
+#   a : 1
+#   b : 3
 # unsat
