@@ -64,7 +64,7 @@ with create_config(OPTIONS) as cfg:
 
         with create_maximize(env, "cost") as obj1, \
              create_minimize(env, "cost") as obj2, \
-             create_minmax(env, ["x1", "x2"]) as obj3:
+             create_maxmin(env, ["x1", "x2"]) as obj3:
 
             push(env)
             assert_objective(env, obj1)
@@ -101,6 +101,6 @@ with create_config(OPTIONS) as cfg:
 # sat
 #   B1 : `true`
 #   x1 : 7
-#   x2 : 10
-#   cost : 17
+#   x2 : 8
+#   cost : 15
 #   minmax : 7

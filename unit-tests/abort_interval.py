@@ -46,7 +46,7 @@ with create_config(OPTIONS) as cfg:
             assert not MSAT_ERROR_TERM(TERM)
             msat_assert_formula(env, TERM)
 
-        with create_minimize(env, "objective", lower="23", upper="100") as obj:
+        with create_minimize(env, "objective") as obj:
             assert_objective(env, obj)
 
             solve(env)
@@ -59,37 +59,32 @@ with create_config(OPTIONS) as cfg:
 #
 ## EXPECTED OUTPUT
 #
-# # obj(.cost_0) := objective
-# # obj(.cost_0) - search start: [ 23, 100 ]
-# # obj(.cost_0) - linear step: 1
-# # obj(.cost_0) -  new: 46
-# # obj(.cost_0) -  update upper: [ 23, 46 ]
-# # obj(.cost_0) - linear step: 2
-# # obj(.cost_0) -  new: 130/3
-# # obj(.cost_0) -  update upper: [ 23, 130/3 ]
-# # obj(.cost_0) - linear step: 3
-# # obj(.cost_0) -  new: 40
-# # obj(.cost_0) -  update upper: [ 23, 40 ]
-# # obj(.cost_0) - linear step: 4
-# # obj(.cost_0) -  new: 119/3
-# # obj(.cost_0) -  update upper: [ 23, 119/3 ]
-# # obj(.cost_0) - linear step: 5
-# # obj(.cost_0) -  new: 112/3
-# # obj(.cost_0) -  update upper: [ 23, 112/3 ]
-# # obj(.cost_0) - linear step: 6
-# # obj(.cost_0) -  new: 104/3
-# # obj(.cost_0) -  update upper: [ 23, 104/3 ]
-# # obj(.cost_0) - linear step: 7
-# # obj(.cost_0) -  new: 34
-# # obj(.cost_0) -  update upper: [ 23, 34 ]
-# # obj(.cost_0) - linear step: 8
-# # obj(.cost_0) -  new: 133/4
-# # obj(.cost_0) -  update upper: [ 23, 133/4 ]
-# # obj(.cost_0) - linear step: 9
-# # obj(.cost_0) -  new: 161/5
-# # obj(.cost_0) -  update upper: [ 23, 161/5 ]
-# # obj(.cost_0) - search end: sat_approx
+# # obj(objective) := objective
+# # obj(objective) - search start: [ (- oo), oo ]
+# # obj(objective) - linear step: 1
+# # obj(objective) -  new: 75
+# # obj(objective) -  update upper: [ (- oo), 75 ]
+# # obj(objective) - binary step: 1
+# # obj(objective) - pivot: (not (<= (to_real 0) objective))
+# # obj(objective) -  update lower: [ 0, 75 ]
+# # obj(objective) - linear step: 2
+# # obj(objective) -  new: 69
+# # obj(objective) -  update upper: [ 0, 69 ]
+# # obj(objective) - binary step: 2
+# # obj(objective) - pivot: (not (<= (/ 69 2) objective))
+# # obj(objective) -  new: (/ 137 4)
+# # obj(objective) -  update upper: [ 0, (/ 137 4) ]
+# # obj(objective) - binary step: 3
+# # obj(objective) - pivot: (not (<= (/ 137 8) objective))
+# # obj(objective) -  update lower: [ (/ 137 8), (/ 137 4) ]
+# # obj(objective) - linear step: 3
+# # obj(objective) -  new: 34
+# # obj(objective) -  update upper: [ (/ 137 8), 34 ]
+# # obj(objective) - binary step: 4
+# # obj(objective) - pivot: (not (<= (/ 409 16) objective))
+# # obj(objective) -  update lower: [ (/ 409 16), 34 ]
+# # obj(objective) - search end: sat_approx
 # sat
 # (objectives
-#   (objective 161/5), termination threshold, range: [ 23, 161/5 ]
+#   (objective 34), termination threshold, range: [ 409/16, 34 ]
 # )

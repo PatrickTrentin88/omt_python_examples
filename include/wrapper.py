@@ -88,15 +88,12 @@ def destroy_env(env):
 ###
 
 @contextmanager
-def create_minimize(env, cost_fun, lower=None, upper=None, signed=False):
+def create_minimize(env, cost_fun, signed=False):
     """
-    Create a new objective 'min(cost_fun)' with optional optimization
-    local interval [lower, upper[.
+    Create a new objective 'min(cost_fun)'.
 
     :param env: the environment in which to operate.
     :param cost_fun: the cost function to optimize.
-    :param lower: a string representing the optimization lower bound.
-    :param upper: a string representing the optimization upper bound.
     :param signed: when enabled, a Bit-Vector goal is interpreted as signed.
 
     :yields: a new msat_objective instance.
@@ -104,9 +101,7 @@ def create_minimize(env, cost_fun, lower=None, upper=None, signed=False):
     assert not MSAT_ERROR_ENV(env)
     try:
         tcf = string_to_term(env, cost_fun)
-        lower_bound = string_to_term(env, lower) if lower is not None else None
-        upper_bound = string_to_term(env, upper) if upper is not None else None
-        obj = msat_make_minimize(env, tcf, lower_bound, upper_bound, signed)
+        obj = msat_make_minimize(env, tcf, signed)
         assert not MSAT_ERROR_OBJECTIVE(obj)
         yield obj
     finally:
@@ -115,15 +110,12 @@ def create_minimize(env, cost_fun, lower=None, upper=None, signed=False):
     return
 
 @contextmanager
-def create_maximize(env, cost_fun, lower=None, upper=None, signed=False):
+def create_maximize(env, cost_fun, signed=False):
     """
-    Create a new objective 'max(cost_fun)' with optional optimization
-    local interval ]lower, upper].
+    Create a new objective 'max(cost_fun)'
 
     :param env: the environment in which to operate.
     :param cost_fun: the cost function to optimize.
-    :param lower: a string representing the optimization lower bound.
-    :param upper: a string representing the optimization upper bound.
     :param signed: when enabled, a Bit-Vector goal is interpreted as signed.
 
     :yields: a new msat_objective instance.
@@ -131,9 +123,7 @@ def create_maximize(env, cost_fun, lower=None, upper=None, signed=False):
     assert not MSAT_ERROR_ENV(env)
     try:
         tcf = string_to_term(env, cost_fun)
-        lower_bound = string_to_term(env, lower) if lower is not None else None
-        upper_bound = string_to_term(env, upper) if upper is not None else None
-        obj = msat_make_maximize(env, tcf, lower_bound, upper_bound, signed)
+        obj = msat_make_maximize(env, tcf, signed)
         assert not MSAT_ERROR_OBJECTIVE(obj)
         yield obj
     finally:
@@ -142,15 +132,12 @@ def create_maximize(env, cost_fun, lower=None, upper=None, signed=False):
     return
 
 @contextmanager
-def create_minmax(env, cost_funs, lower=None, upper=None, signed=False):
+def create_minmax(env, cost_funs, signed=False):
     """
     Create a new objective 'min(max(cost_fun[0]), ..., max(cost_fun[N]))'
-    with optional optimization local interval ]lower, upper].
 
     :param env: the environment in which to operate.
     :param cost_funs: the cost functions to optimize.
-    :param lower: a string representing the optimization lower bound.
-    :param upper: a string representing the optimization upper bound.
     :param signed: when enabled, a Bit-Vector goal is interpreted as signed.
 
     :yields: a new msat_objective instance.
@@ -158,9 +145,7 @@ def create_minmax(env, cost_funs, lower=None, upper=None, signed=False):
     assert not MSAT_ERROR_ENV(env)
     try:
         tcfs = [string_to_term(env, cost_fun) for cost_fun in cost_funs]
-        lower_bound = string_to_term(env, lower) if lower is not None else None
-        upper_bound = string_to_term(env, upper) if upper is not None else None
-        obj = msat_make_minmax(env, tcfs, lower_bound, upper_bound, signed)
+        obj = msat_make_minmax(env, tcfs, signed)
         assert not MSAT_ERROR_OBJECTIVE(obj)
         yield obj
     finally:
@@ -169,15 +154,12 @@ def create_minmax(env, cost_funs, lower=None, upper=None, signed=False):
     return
 
 @contextmanager
-def create_maxmin(env, cost_funs, lower=None, upper=None, signed=False):
+def create_maxmin(env, cost_funs, signed=False):
     """
     Create a new objective 'max(min(cost_fun[0]), ..., min(cost_fun[N]))'
-    with optional optimization local interval [lower, upper[.
 
     :param env: the environment in which to operate.
     :param cost_funs: the cost functions to optimize.
-    :param lower: a string representing the optimization lower bound.
-    :param upper: a string representing the optimization upper bound.
     :param signed: when enabled, a Bit-Vector goal is interpreted as signed.
 
     :yields: a new msat_objective instance.
@@ -185,9 +167,7 @@ def create_maxmin(env, cost_funs, lower=None, upper=None, signed=False):
     assert not MSAT_ERROR_ENV(env)
     try:
         tcfs = [string_to_term(env, cost_fun) for cost_fun in cost_funs]
-        lower_bound = string_to_term(env, lower) if lower is not None else None
-        upper_bound = string_to_term(env, upper) if upper is not None else None
-        obj = msat_make_maxmin(env, tcfs, lower_bound, upper_bound, signed)
+        obj = msat_make_maxmin(env, tcfs, signed)
         assert not MSAT_ERROR_OBJECTIVE(obj)
         yield obj
     finally:
@@ -783,26 +763,6 @@ def dump_model(env, hidden=False):
     msat_destroy_model_iterator(miter)
     msat_destroy_model(model)
 
-###
-### OLD-STYLE STAT(s)
-###
-
-def dump_stats(env):
-    """
-    Prints the optimization statistics for each
-    objective currently asserted in the given
-    environment.
-
-    :param env: the environment in which to operate.
-    """
-    obj_iter = msat_create_objective_iterator(env)
-    assert not MSAT_ERROR_OBJECTIVE_ITERATOR(obj_iter)
-    while msat_objective_iterator_has_next(obj_iter):
-        res, obj = msat_objective_iterator_next(obj_iter)
-        assert res == 0
-        stats = msat_objective_get_search_stats(env, obj)
-        print(stats)
-    msat_destroy_objective_iterator(obj_iter)
 
 ###
 ### Timer() -- sets a search timeout

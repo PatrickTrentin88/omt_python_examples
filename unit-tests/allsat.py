@@ -81,9 +81,9 @@ with create_config(OPTIONS) as cfg:
 # )
 # sat
 #   a : True
-#   b : False
+#   b : True
 #   e : True
 # sat
 #   a : True
-#   b : True
+#   b : False
 #   e : True

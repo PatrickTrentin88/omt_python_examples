@@ -47,11 +47,11 @@ DECLS = {
 }
 
 HARD = [
-    "(< r 14)",
-    "(< i 13)",
-    "(bvule b8 #b00001100)",
-    "(bvsle b4 #b0001)",
-    "(fp.leq f8 (fp #b0 #b010 #b0010))",
+    "(< 14 r)",
+    "(< 13 i)",
+    "(bvule #b00001100 b8)",
+    "(bvsle #b0001 b4)",
+    "(fp.leq (fp #b0 #b010 #b0010) f8)",
     "(not (fp.isNaN f8))",
     "(not (fp.isInfinite f8))",
     "(not (fp.isNaN f16))",
@@ -100,10 +100,10 @@ with create_config(OPTIONS) as cfg:
 #
 # sat
 # (objectives
-#   (minmax 12)
-#   (minmax_0 12)
-#   (minmax_1 12_4)
+#   (minmax (+ 14 epsilon))
+#   (minmax_0 14)
+#   (minmax_1 1_4)
 #   (minmax_2 12_8)
 #   (minmax_3 1_8)
-#   (minmax_4 34_3_4)
+#   (minmax_4 48_3_4)
 # )

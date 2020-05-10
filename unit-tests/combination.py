@@ -113,8 +113,8 @@ with create_config(OPTIONS) as cfg:
 #   m2 : `true`
 #   m3 : `true`
 #   q0 : 800
-#   q1 : 1/2000000
-#   q2 : 199999999/2000000
+#   q1 : 25
+#   q2 : 75
 #   q3 : 200
 #   production_cost : 8300
 #   total_cost : 9556

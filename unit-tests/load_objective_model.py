@@ -103,8 +103,8 @@ with create_config(OPTIONS) as cfg:
 #
 # Model: minimize x
 #   x : 3
-#   y : 16
-#   z : 10
+#   y : 26
+#   z : 20
 #
 # Model: maximize y
 #   x : 5

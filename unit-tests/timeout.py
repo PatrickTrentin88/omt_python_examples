@@ -48,10 +48,10 @@ with create_config(OPTIONS) as cfg:
             msat_assert_formula(env, TERM)
 
         # set a timeout of 3.0 seconds
-        CALLBACK = Timer(3.0)
+        CALLBACK = Timer(2.0)
         msat_set_termination_test(env, CALLBACK)
 
-        with create_minimize(env, "objective", lower="23", upper="100") as obj:
+        with create_minimize(env, "objective") as obj:
             assert_objective(env, obj)
 
             solve(env)
@@ -64,56 +64,44 @@ with create_config(OPTIONS) as cfg:
 #
 ## EXPECTED OUTPUT
 #
-# # obj(.cost_0) := objective
-# # obj(.cost_0) - search start: [ 23, 100 ]
-# # obj(.cost_0) - linear step: 1
-# # obj(.cost_0) -  new: 46
-# # obj(.cost_0) -  update upper: [ 23, 46 ]
-# # obj(.cost_0) - linear step: 2
-# # obj(.cost_0) -  new: 130/3
-# # obj(.cost_0) -  update upper: [ 23, 130/3 ]
-# # obj(.cost_0) - linear step: 3
-# # obj(.cost_0) -  new: 40
-# # obj(.cost_0) -  update upper: [ 23, 40 ]
-# # obj(.cost_0) - linear step: 4
-# # obj(.cost_0) -  new: 119/3
-# # obj(.cost_0) -  update upper: [ 23, 119/3 ]
-# # obj(.cost_0) - linear step: 5
-# # obj(.cost_0) -  new: 112/3
-# # obj(.cost_0) -  update upper: [ 23, 112/3 ]
-# # obj(.cost_0) - linear step: 6
-# # obj(.cost_0) -  new: 104/3
-# # obj(.cost_0) -  update upper: [ 23, 104/3 ]
-# # obj(.cost_0) - linear step: 7
-# # obj(.cost_0) -  new: 34
-# # obj(.cost_0) -  update upper: [ 23, 34 ]
-# # obj(.cost_0) - linear step: 8
-# # obj(.cost_0) -  new: 133/4
-# # obj(.cost_0) -  update upper: [ 23, 133/4 ]
-# # obj(.cost_0) - linear step: 9
-# # obj(.cost_0) -  new: 161/5
-# # obj(.cost_0) -  update upper: [ 23, 161/5 ]
-# # obj(.cost_0) - linear step: 10
-# # obj(.cost_0) -  new: 32
-# # obj(.cost_0) -  update upper: [ 23, 32 ]
-# # obj(.cost_0) - linear step: 11
-# # obj(.cost_0) -  new: 158/5
-# # obj(.cost_0) -  update upper: [ 23, 158/5 ]
-# # obj(.cost_0) - linear step: 12
-# # obj(.cost_0) -  new: 247/8
-# # obj(.cost_0) -  update upper: [ 23, 247/8 ]
-# # obj(.cost_0) - linear step: 13
-# # obj(.cost_0) -  new: 123/4
-# # obj(.cost_0) -  update upper: [ 23, 123/4 ]
-# # obj(.cost_0) - linear step: 14
-# # obj(.cost_0) -  new: 61/2
-# # obj(.cost_0) -  update upper: [ 23, 61/2 ]
-# # obj(.cost_0) - linear step: 15
-# unknown                                       ;; <== Timeout!
+# # obj(objective) := objective
+# # obj(objective) - search start: [ (- oo), oo ]
+# # obj(objective) - linear step: 1
+# # obj(objective) -  new: 75
+# # obj(objective) -  update upper: [ (- oo), 75 ]
+# # obj(objective) - binary step: 1
+# # obj(objective) - pivot: (not (<= (to_real 0) objective))
+# # obj(objective) -  update lower: [ 0, 75 ]
+# # obj(objective) - linear step: 2
+# # obj(objective) -  new: 69
+# # obj(objective) -  update upper: [ 0, 69 ]
+# # obj(objective) - binary step: 2
+# # obj(objective) - pivot: (not (<= (/ 69 2) objective))
+# # obj(objective) -  new: (/ 137 4)
+# # obj(objective) -  update upper: [ 0, (/ 137 4) ]
+# # obj(objective) - binary step: 3
+# # obj(objective) - pivot: (not (<= (/ 137 8) objective))
+# # obj(objective) -  update lower: [ (/ 137 8), (/ 137 4) ]
+# # obj(objective) - linear step: 3
+# # obj(objective) -  new: 34
+# # obj(objective) -  update upper: [ (/ 137 8), 34 ]
+# # obj(objective) - binary step: 4
+# # obj(objective) - pivot: (not (<= (/ 409 16) objective))
+# # obj(objective) -  update lower: [ (/ 409 16), 34 ]
+# # obj(objective) - linear step: 4
+# # obj(objective) -  new: (/ 169 5)
+# # obj(objective) -  update upper: [ (/ 409 16), (/ 169 5) ]
+# # obj(objective) - binary step: 5
+# # obj(objective) - pivot: (not (<= (/ 4749 160) objective))
+# # obj(objective) -  new: (/ 266 9)
+# # obj(objective) -  update upper: [ (/ 409 16), (/ 266 9) ]
+# # obj(objective) - binary step: 6
+# # obj(objective) - pivot: (not (<= (/ 7937 288) objective))
+# unknown
 # (objectives
-#   (objective 61/2), partial search, range: [ 23, 61/2 ]
-# )                                             ;; sub-optimal value, latest search interval
-#   course_load__ARRAY__1 : 9                   ;; and the corresponding sub-optimal model
+#   (objective 266/9), partial search, range: [ 409/16, 266/9 ]
+# )
+#   course_load__ARRAY__1 : 9
 #   course_load__ARRAY__2 : 1
 #   course_load__ARRAY__3 : 2
 #   course_load__ARRAY__4 : 10
@@ -163,10 +151,10 @@ with create_config(OPTIONS) as cfg:
 #   course_load__ARRAY__48 : 3
 #   course_load__ARRAY__49 : 2
 #   course_load__ARRAY__50 : 9
-#   BOOL____00001 : `false`
-#   BOOL____00003 : `true`
+#   BOOL____00001 : `true`
+#   BOOL____00003 : `false`
 #   BOOL____00005 : `true`
-#   BOOL____00007 : `false`
+#   BOOL____00007 : `true`
 #   BOOL____00009 : `true`
 #   BOOL____00011 : `true`
 #   BOOL____00013 : `true`
@@ -192,7 +180,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00053 : `true`
 #   BOOL____00055 : `true`
 #   BOOL____00057 : `true`
-#   BOOL____00059 : `true`
+#   BOOL____00059 : `false`
 #   BOOL____00061 : `true`
 #   BOOL____00063 : `true`
 #   BOOL____00065 : `true`
@@ -214,9 +202,9 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00097 : `true`
 #   BOOL____00099 : `true`
 #   BOOL____00101 : `false`
-#   BOOL____00103 : `true`
-#   BOOL____00105 : `false`
-#   BOOL____00107 : `false`
+#   BOOL____00103 : `false`
+#   BOOL____00105 : `true`
+#   BOOL____00107 : `true`
 #   BOOL____00109 : `true`
 #   BOOL____00111 : `true`
 #   BOOL____00113 : `true`
@@ -229,7 +217,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00127 : `true`
 #   BOOL____00129 : `true`
 #   BOOL____00131 : `true`
-#   BOOL____00133 : `true`
+#   BOOL____00133 : `false`
 #   BOOL____00135 : `false`
 #   BOOL____00137 : `true`
 #   BOOL____00139 : `true`
@@ -242,21 +230,21 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00153 : `true`
 #   BOOL____00155 : `true`
 #   BOOL____00157 : `true`
-#   BOOL____00159 : `true`
-#   BOOL____00161 : `true`
+#   BOOL____00159 : `false`
+#   BOOL____00161 : `false`
 #   BOOL____00163 : `true`
-#   BOOL____00165 : `true`
+#   BOOL____00165 : `false`
 #   BOOL____00167 : `true`
 #   BOOL____00169 : `true`
 #   BOOL____00171 : `true`
-#   BOOL____00173 : `true`
+#   BOOL____00173 : `false`
 #   BOOL____00175 : `true`
 #   BOOL____00177 : `true`
 #   BOOL____00179 : `true`
 #   BOOL____00181 : `true`
 #   BOOL____00183 : `true`
 #   BOOL____00185 : `true`
-#   BOOL____00187 : `false`
+#   BOOL____00187 : `true`
 #   BOOL____00189 : `true`
 #   BOOL____00191 : `true`
 #   BOOL____00193 : `true`
@@ -264,7 +252,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00197 : `true`
 #   BOOL____00199 : `true`
 #   BOOL____00201 : `false`
-#   BOOL____00203 : `true`
+#   BOOL____00203 : `false`
 #   BOOL____00205 : `false`
 #   BOOL____00207 : `false`
 #   BOOL____00209 : `true`
@@ -273,40 +261,40 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00215 : `false`
 #   BOOL____00217 : `false`
 #   BOOL____00219 : `false`
-#   BOOL____00221 : `false`
+#   BOOL____00221 : `true`
 #   BOOL____00223 : `false`
 #   BOOL____00225 : `true`
-#   BOOL____00227 : `false`
+#   BOOL____00227 : `true`
 #   BOOL____00229 : `false`
 #   BOOL____00231 : `false`
-#   BOOL____00233 : `true`
+#   BOOL____00233 : `false`
 #   BOOL____00235 : `false`
-#   BOOL____00237 : `false`
+#   BOOL____00237 : `true`
 #   BOOL____00239 : `true`
-#   BOOL____00241 : `false`
-#   BOOL____00243 : `false`
-#   BOOL____00245 : `true`
+#   BOOL____00241 : `true`
+#   BOOL____00243 : `true`
+#   BOOL____00245 : `false`
 #   BOOL____00247 : `true`
 #   BOOL____00249 : `true`
 #   BOOL____00251 : `true`
 #   BOOL____00253 : `true`
 #   BOOL____00255 : `true`
 #   BOOL____00257 : `true`
-#   BOOL____00259 : `true`
-#   BOOL____00261 : `true`
+#   BOOL____00259 : `false`
+#   BOOL____00261 : `false`
 #   BOOL____00263 : `true`
-#   BOOL____00265 : `true`
+#   BOOL____00265 : `false`
 #   BOOL____00267 : `true`
 #   BOOL____00269 : `true`
 #   BOOL____00271 : `true`
-#   BOOL____00273 : `true`
+#   BOOL____00273 : `false`
 #   BOOL____00275 : `true`
 #   BOOL____00277 : `true`
 #   BOOL____00279 : `true`
 #   BOOL____00281 : `true`
 #   BOOL____00283 : `true`
 #   BOOL____00285 : `true`
-#   BOOL____00287 : `false`
+#   BOOL____00287 : `true`
 #   BOOL____00289 : `true`
 #   BOOL____00291 : `true`
 #   BOOL____00293 : `true`
@@ -326,37 +314,37 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00321 : `false`
 #   BOOL____00323 : `false`
 #   BOOL____00325 : `true`
-#   BOOL____00327 : `false`
+#   BOOL____00327 : `true`
 #   BOOL____00329 : `false`
 #   BOOL____00331 : `false`
-#   BOOL____00333 : `true`
+#   BOOL____00333 : `false`
 #   BOOL____00335 : `false`
-#   BOOL____00337 : `false`
+#   BOOL____00337 : `true`
 #   BOOL____00339 : `true`
-#   BOOL____00341 : `false`
-#   BOOL____00343 : `false`
-#   BOOL____00345 : `true`
+#   BOOL____00341 : `true`
+#   BOOL____00343 : `true`
+#   BOOL____00345 : `false`
 #   BOOL____00347 : `true`
 #   BOOL____00349 : `true`
 #   BOOL____00351 : `true`
-#   BOOL____00353 : `false`
+#   BOOL____00353 : `true`
 #   BOOL____00355 : `true`
 #   BOOL____00357 : `true`
-#   BOOL____00359 : `true`
-#   BOOL____00361 : `true`
-#   BOOL____00363 : `true`
-#   BOOL____00365 : `true`
-#   BOOL____00367 : `false`
+#   BOOL____00359 : `false`
+#   BOOL____00361 : `false`
+#   BOOL____00363 : `false`
+#   BOOL____00365 : `false`
+#   BOOL____00367 : `true`
 #   BOOL____00369 : `true`
 #   BOOL____00371 : `true`
-#   BOOL____00373 : `true`
+#   BOOL____00373 : `false`
 #   BOOL____00375 : `true`
-#   BOOL____00377 : `false`
+#   BOOL____00377 : `true`
 #   BOOL____00379 : `true`
 #   BOOL____00381 : `true`
 #   BOOL____00383 : `true`
 #   BOOL____00385 : `true`
-#   BOOL____00387 : `false`
+#   BOOL____00387 : `true`
 #   BOOL____00389 : `true`
 #   BOOL____00391 : `true`
 #   BOOL____00393 : `true`
@@ -369,44 +357,44 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00407 : `false`
 #   BOOL____00409 : `false`
 #   BOOL____00411 : `false`
-#   BOOL____00413 : `false`
+#   BOOL____00413 : `true`
 #   BOOL____00415 : `false`
 #   BOOL____00417 : `false`
 #   BOOL____00419 : `false`
 #   BOOL____00421 : `false`
 #   BOOL____00423 : `false`
-#   BOOL____00425 : `true`
-#   BOOL____00427 : `false`
+#   BOOL____00425 : `false`
+#   BOOL____00427 : `true`
 #   BOOL____00429 : `false`
 #   BOOL____00431 : `false`
-#   BOOL____00433 : `true`
+#   BOOL____00433 : `false`
 #   BOOL____00435 : `false`
-#   BOOL____00437 : `false`
+#   BOOL____00437 : `true`
 #   BOOL____00439 : `true`
-#   BOOL____00441 : `false`
+#   BOOL____00441 : `true`
 #   BOOL____00443 : `false`
-#   BOOL____00445 : `true`
+#   BOOL____00445 : `false`
 #   BOOL____00447 : `true`
-#   BOOL____00449 : `true`
+#   BOOL____00449 : `false`
 #   BOOL____00451 : `true`
-#   BOOL____00453 : `false`
+#   BOOL____00453 : `true`
 #   BOOL____00455 : `true`
 #   BOOL____00457 : `true`
-#   BOOL____00459 : `true`
-#   BOOL____00461 : `true`
-#   BOOL____00463 : `true`
+#   BOOL____00459 : `false`
+#   BOOL____00461 : `false`
+#   BOOL____00463 : `false`
 #   BOOL____00465 : `false`
-#   BOOL____00467 : `false`
+#   BOOL____00467 : `true`
 #   BOOL____00469 : `true`
 #   BOOL____00471 : `true`
-#   BOOL____00473 : `true`
+#   BOOL____00473 : `false`
 #   BOOL____00475 : `true`
-#   BOOL____00477 : `false`
+#   BOOL____00477 : `true`
 #   BOOL____00479 : `true`
 #   BOOL____00481 : `true`
 #   BOOL____00483 : `true`
 #   BOOL____00485 : `true`
-#   BOOL____00487 : `false`
+#   BOOL____00487 : `true`
 #   BOOL____00489 : `true`
 #   BOOL____00491 : `true`
 #   BOOL____00493 : `true`
@@ -419,42 +407,42 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00507 : `false`
 #   BOOL____00509 : `false`
 #   BOOL____00511 : `false`
-#   BOOL____00513 : `false`
+#   BOOL____00513 : `true`
 #   BOOL____00515 : `false`
 #   BOOL____00517 : `false`
 #   BOOL____00519 : `false`
 #   BOOL____00521 : `false`
 #   BOOL____00523 : `false`
-#   BOOL____00525 : `true`
+#   BOOL____00525 : `false`
 #   BOOL____00527 : `false`
 #   BOOL____00529 : `false`
 #   BOOL____00531 : `false`
-#   BOOL____00533 : `true`
+#   BOOL____00533 : `false`
 #   BOOL____00535 : `false`
 #   BOOL____00537 : `false`
 #   BOOL____00539 : `true`
 #   BOOL____00541 : `false`
 #   BOOL____00543 : `false`
-#   BOOL____00545 : `true`
+#   BOOL____00545 : `false`
 #   BOOL____00547 : `true`
-#   BOOL____00549 : `true`
+#   BOOL____00549 : `false`
 #   BOOL____00551 : `true`
-#   BOOL____00553 : `false`
-#   BOOL____00555 : `true`
+#   BOOL____00553 : `true`
+#   BOOL____00555 : `false`
 #   BOOL____00557 : `true`
-#   BOOL____00559 : `true`
-#   BOOL____00561 : `true`
+#   BOOL____00559 : `false`
+#   BOOL____00561 : `false`
 #   BOOL____00563 : `false`
 #   BOOL____00565 : `false`
-#   BOOL____00567 : `false`
-#   BOOL____00569 : `false`
+#   BOOL____00567 : `true`
+#   BOOL____00569 : `true`
 #   BOOL____00571 : `true`
-#   BOOL____00573 : `true`
-#   BOOL____00575 : `false`
-#   BOOL____00577 : `false`
-#   BOOL____00579 : `false`
+#   BOOL____00573 : `false`
+#   BOOL____00575 : `true`
+#   BOOL____00577 : `true`
+#   BOOL____00579 : `true`
 #   BOOL____00581 : `true`
-#   BOOL____00583 : `false`
+#   BOOL____00583 : `true`
 #   BOOL____00585 : `true`
 #   BOOL____00587 : `false`
 #   BOOL____00589 : `true`
@@ -469,42 +457,42 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00607 : `false`
 #   BOOL____00609 : `false`
 #   BOOL____00611 : `false`
-#   BOOL____00613 : `false`
+#   BOOL____00613 : `true`
 #   BOOL____00615 : `false`
 #   BOOL____00617 : `false`
 #   BOOL____00619 : `false`
 #   BOOL____00621 : `false`
 #   BOOL____00623 : `false`
-#   BOOL____00625 : `true`
+#   BOOL____00625 : `false`
 #   BOOL____00627 : `false`
 #   BOOL____00629 : `false`
 #   BOOL____00631 : `false`
-#   BOOL____00633 : `true`
+#   BOOL____00633 : `false`
 #   BOOL____00635 : `false`
 #   BOOL____00637 : `false`
-#   BOOL____00639 : `true`
+#   BOOL____00639 : `false`
 #   BOOL____00641 : `false`
 #   BOOL____00643 : `false`
-#   BOOL____00645 : `true`
-#   BOOL____00647 : `true`
-#   BOOL____00649 : `true`
-#   BOOL____00651 : `true`
+#   BOOL____00645 : `false`
+#   BOOL____00647 : `false`
+#   BOOL____00649 : `false`
+#   BOOL____00651 : `false`
 #   BOOL____00653 : `false`
-#   BOOL____00655 : `true`
+#   BOOL____00655 : `false`
 #   BOOL____00657 : `true`
-#   BOOL____00659 : `true`
+#   BOOL____00659 : `false`
 #   BOOL____00661 : `false`
 #   BOOL____00663 : `false`
 #   BOOL____00665 : `false`
 #   BOOL____00667 : `false`
-#   BOOL____00669 : `false`
+#   BOOL____00669 : `true`
 #   BOOL____00671 : `false`
 #   BOOL____00673 : `false`
 #   BOOL____00675 : `false`
-#   BOOL____00677 : `false`
-#   BOOL____00679 : `false`
-#   BOOL____00681 : `false`
-#   BOOL____00683 : `false`
+#   BOOL____00677 : `true`
+#   BOOL____00679 : `true`
+#   BOOL____00681 : `true`
+#   BOOL____00683 : `true`
 #   BOOL____00685 : `true`
 #   BOOL____00687 : `false`
 #   BOOL____00689 : `true`
@@ -512,7 +500,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00693 : `true`
 #   BOOL____00695 : `true`
 #   BOOL____00697 : `true`
-#   BOOL____00699 : `false`
+#   BOOL____00699 : `true`
 #   BOOL____00701 : `false`
 #   BOOL____00703 : `false`
 #   BOOL____00705 : `false`
@@ -532,13 +520,13 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00733 : `false`
 #   BOOL____00735 : `false`
 #   BOOL____00737 : `false`
-#   BOOL____00739 : `true`
+#   BOOL____00739 : `false`
 #   BOOL____00741 : `false`
 #   BOOL____00743 : `false`
-#   BOOL____00745 : `true`
-#   BOOL____00747 : `true`
+#   BOOL____00745 : `false`
+#   BOOL____00747 : `false`
 #   BOOL____00749 : `false`
-#   BOOL____00751 : `true`
+#   BOOL____00751 : `false`
 #   BOOL____00753 : `false`
 #   BOOL____00755 : `false`
 #   BOOL____00757 : `true`
@@ -552,9 +540,9 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00773 : `false`
 #   BOOL____00775 : `false`
 #   BOOL____00777 : `false`
-#   BOOL____00779 : `false`
-#   BOOL____00781 : `false`
-#   BOOL____00783 : `false`
+#   BOOL____00779 : `true`
+#   BOOL____00781 : `true`
+#   BOOL____00783 : `true`
 #   BOOL____00785 : `true`
 #   BOOL____00787 : `false`
 #   BOOL____00789 : `true`
@@ -562,7 +550,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00793 : `true`
 #   BOOL____00795 : `true`
 #   BOOL____00797 : `true`
-#   BOOL____00799 : `false`
+#   BOOL____00799 : `true`
 #   BOOL____00801 : `false`
 #   BOOL____00803 : `false`
 #   BOOL____00805 : `false`
@@ -582,7 +570,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00833 : `false`
 #   BOOL____00835 : `false`
 #   BOOL____00837 : `false`
-#   BOOL____00839 : `true`
+#   BOOL____00839 : `false`
 #   BOOL____00841 : `false`
 #   BOOL____00843 : `false`
 #   BOOL____00845 : `false`
@@ -591,7 +579,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00851 : `false`
 #   BOOL____00853 : `false`
 #   BOOL____00855 : `false`
-#   BOOL____00857 : `true`
+#   BOOL____00857 : `false`
 #   BOOL____00859 : `false`
 #   BOOL____00861 : `false`
 #   BOOL____00863 : `false`
@@ -603,20 +591,20 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00875 : `false`
 #   BOOL____00877 : `false`
 #   BOOL____00879 : `false`
-#   BOOL____00881 : `false`
+#   BOOL____00881 : `true`
 #   BOOL____00883 : `false`
 #   BOOL____00885 : `false`
 #   BOOL____00887 : `false`
-#   BOOL____00889 : `false`
-#   BOOL____00891 : `false`
-#   BOOL____00893 : `false`
-#   BOOL____00895 : `false`
-#   BOOL____00897 : `false`
-#   BOOL____00899 : `false`
-#   BOOL____00901 : `true`
-#   BOOL____00903 : `false`
+#   BOOL____00889 : `true`
+#   BOOL____00891 : `true`
+#   BOOL____00893 : `true`
+#   BOOL____00895 : `true`
+#   BOOL____00897 : `true`
+#   BOOL____00899 : `true`
+#   BOOL____00901 : `false`
+#   BOOL____00903 : `true`
 #   BOOL____00905 : `false`
-#   BOOL____00907 : `true`
+#   BOOL____00907 : `false`
 #   BOOL____00909 : `false`
 #   BOOL____00911 : `false`
 #   BOOL____00913 : `false`
@@ -642,7 +630,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00953 : `false`
 #   BOOL____00955 : `false`
 #   BOOL____00957 : `false`
-#   BOOL____00959 : `false`
+#   BOOL____00959 : `true`
 #   BOOL____00961 : `false`
 #   BOOL____00963 : `false`
 #   BOOL____00965 : `false`
@@ -663,9 +651,9 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____00995 : `false`
 #   BOOL____00997 : `false`
 #   BOOL____00999 : `false`
-#   BOOL____01001 : `false`
+#   BOOL____01001 : `true`
 #   BOOL____01003 : `false`
-#   BOOL____01005 : `true`
+#   BOOL____01005 : `false`
 #   BOOL____01007 : `false`
 #   BOOL____01009 : `false`
 #   BOOL____01011 : `false`
@@ -680,7 +668,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01029 : `false`
 #   BOOL____01031 : `false`
 #   BOOL____01033 : `false`
-#   BOOL____01035 : `true`
+#   BOOL____01035 : `false`
 #   BOOL____01037 : `false`
 #   BOOL____01039 : `false`
 #   BOOL____01041 : `false`
@@ -699,7 +687,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01067 : `false`
 #   BOOL____01069 : `false`
 #   BOOL____01071 : `false`
-#   BOOL____01073 : `false`
+#   BOOL____01073 : `true`
 #   BOOL____01075 : `false`
 #   BOOL____01077 : `false`
 #   BOOL____01079 : `false`
@@ -728,14 +716,14 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01125 : `false`
 #   BOOL____01127 : `false`
 #   BOOL____01129 : `false`
-#   BOOL____01131 : `false`
+#   BOOL____01131 : `true`
 #   BOOL____01133 : `false`
 #   BOOL____01135 : `false`
 #   BOOL____01137 : `false`
 #   BOOL____01139 : `false`
-#   BOOL____01141 : `true`
-#   BOOL____01143 : `true`
-#   BOOL____01145 : `false`
+#   BOOL____01141 : `false`
+#   BOOL____01143 : `false`
+#   BOOL____01145 : `true`
 #   BOOL____01147 : `false`
 #   BOOL____01149 : `false`
 #   BOOL____01151 : `false`
@@ -764,7 +752,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01197 : `false`
 #   BOOL____01199 : `false`
 #   BOOL____01201 : `false`
-#   BOOL____01203 : `true`
+#   BOOL____01203 : `false`
 #   BOOL____01205 : `false`
 #   BOOL____01207 : `false`
 #   BOOL____01209 : `false`
@@ -773,7 +761,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01215 : `false`
 #   BOOL____01217 : `false`
 #   BOOL____01219 : `false`
-#   BOOL____01221 : `false`
+#   BOOL____01221 : `true`
 #   BOOL____01223 : `false`
 #   BOOL____01225 : `false`
 #   BOOL____01227 : `false`
@@ -794,14 +782,14 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01257 : `false`
 #   BOOL____01259 : `false`
 #   BOOL____01261 : `false`
-#   BOOL____01263 : `false`
+#   BOOL____01263 : `true`
 #   BOOL____01265 : `false`
 #   BOOL____01267 : `false`
 #   BOOL____01269 : `false`
 #   BOOL____01271 : `false`
 #   BOOL____01273 : `false`
 #   BOOL____01275 : `false`
-#   BOOL____01277 : `true`
+#   BOOL____01277 : `false`
 #   BOOL____01279 : `false`
 #   BOOL____01281 : `false`
 #   BOOL____01283 : `false`
@@ -819,13 +807,13 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01307 : `false`
 #   BOOL____01309 : `true`
 #   BOOL____01311 : `false`
-#   BOOL____01313 : `true`
+#   BOOL____01313 : `false`
 #   BOOL____01315 : `false`
 #   BOOL____01317 : `false`
 #   BOOL____01319 : `false`
 #   BOOL____01321 : `false`
 #   BOOL____01323 : `false`
-#   BOOL____01325 : `false`
+#   BOOL____01325 : `true`
 #   BOOL____01327 : `false`
 #   BOOL____01329 : `false`
 #   BOOL____01331 : `false`
@@ -890,7 +878,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01449 : `false`
 #   BOOL____01451 : `false`
 #   BOOL____01453 : `false`
-#   BOOL____01455 : `false`
+#   BOOL____01455 : `true`
 #   BOOL____01457 : `false`
 #   BOOL____01459 : `false`
 #   BOOL____01461 : `false`
@@ -902,11 +890,11 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01473 : `false`
 #   BOOL____01475 : `false`
 #   BOOL____01477 : `false`
-#   BOOL____01479 : `true`
+#   BOOL____01479 : `false`
 #   BOOL____01481 : `false`
-#   BOOL____01483 : `true`
+#   BOOL____01483 : `false`
 #   BOOL____01485 : `false`
-#   BOOL____01487 : `false`
+#   BOOL____01487 : `true`
 #   BOOL____01489 : `false`
 #   BOOL____01491 : `false`
 #   BOOL____01493 : `false`
@@ -938,7 +926,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01545 : `false`
 #   BOOL____01547 : `false`
 #   BOOL____01549 : `false`
-#   BOOL____01551 : `false`
+#   BOOL____01551 : `true`
 #   BOOL____01553 : `false`
 #   BOOL____01555 : `false`
 #   BOOL____01557 : `false`
@@ -948,8 +936,8 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01565 : `false`
 #   BOOL____01567 : `false`
 #   BOOL____01569 : `false`
-#   BOOL____01571 : `false`
-#   BOOL____01573 : `true`
+#   BOOL____01571 : `true`
+#   BOOL____01573 : `false`
 #   BOOL____01575 : `false`
 #   BOOL____01577 : `false`
 #   BOOL____01579 : `false`
@@ -962,24 +950,24 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01593 : `false`
 #   BOOL____01595 : `false`
 #   BOOL____01597 : `false`
-#   BOOL____01599 : `true`
+#   BOOL____01599 : `false`
 #   BOOL____01601 : `false`
 #   BOOL____01603 : `false`
 #   BOOL____01605 : `false`
 #   BOOL____01607 : `false`
 #   BOOL____01609 : `false`
 #   BOOL____01611 : `false`
-#   BOOL____01613 : `false`
+#   BOOL____01613 : `true`
 #   BOOL____01615 : `false`
 #   BOOL____01617 : `false`
 #   BOOL____01619 : `false`
 #   BOOL____01621 : `false`
 #   BOOL____01623 : `false`
-#   BOOL____01625 : `true`
+#   BOOL____01625 : `false`
 #   BOOL____01627 : `false`
 #   BOOL____01629 : `false`
 #   BOOL____01631 : `false`
-#   BOOL____01633 : `true`
+#   BOOL____01633 : `false`
 #   BOOL____01635 : `false`
 #   BOOL____01637 : `false`
 #   BOOL____01639 : `false`
@@ -987,12 +975,12 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01643 : `false`
 #   BOOL____01645 : `false`
 #   BOOL____01647 : `false`
-#   BOOL____01649 : `true`
+#   BOOL____01649 : `false`
 #   BOOL____01651 : `false`
 #   BOOL____01653 : `false`
-#   BOOL____01655 : `true`
+#   BOOL____01655 : `false`
 #   BOOL____01657 : `false`
-#   BOOL____01659 : `true`
+#   BOOL____01659 : `false`
 #   BOOL____01661 : `false`
 #   BOOL____01663 : `false`
 #   BOOL____01665 : `false`
@@ -1001,7 +989,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01671 : `false`
 #   BOOL____01673 : `false`
 #   BOOL____01675 : `false`
-#   BOOL____01677 : `false`
+#   BOOL____01677 : `true`
 #   BOOL____01679 : `false`
 #   BOOL____01681 : `false`
 #   BOOL____01683 : `false`
@@ -1035,8 +1023,8 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01739 : `false`
 #   BOOL____01741 : `false`
 #   BOOL____01743 : `false`
-#   BOOL____01745 : `true`
-#   BOOL____01747 : `true`
+#   BOOL____01745 : `false`
+#   BOOL____01747 : `false`
 #   BOOL____01749 : `false`
 #   BOOL____01751 : `false`
 #   BOOL____01753 : `false`
@@ -1054,13 +1042,13 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01777 : `false`
 #   BOOL____01779 : `false`
 #   BOOL____01781 : `false`
-#   BOOL____01783 : `false`
-#   BOOL____01785 : `false`
+#   BOOL____01783 : `true`
+#   BOOL____01785 : `true`
 #   BOOL____01787 : `false`
-#   BOOL____01789 : `true`
+#   BOOL____01789 : `false`
 #   BOOL____01791 : `false`
-#   BOOL____01793 : `true`
-#   BOOL____01795 : `true`
+#   BOOL____01793 : `false`
+#   BOOL____01795 : `false`
 #   BOOL____01797 : `false`
 #   BOOL____01799 : `false`
 #   BOOL____01801 : `false`
@@ -1082,7 +1070,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01833 : `false`
 #   BOOL____01835 : `false`
 #   BOOL____01837 : `false`
-#   BOOL____01839 : `true`
+#   BOOL____01839 : `false`
 #   BOOL____01841 : `false`
 #   BOOL____01843 : `false`
 #   BOOL____01845 : `false`
@@ -1091,7 +1079,7 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01851 : `false`
 #   BOOL____01853 : `false`
 #   BOOL____01855 : `false`
-#   BOOL____01857 : `true`
+#   BOOL____01857 : `false`
 #   BOOL____01859 : `false`
 #   BOOL____01861 : `false`
 #   BOOL____01863 : `false`
@@ -1107,16 +1095,16 @@ with create_config(OPTIONS) as cfg:
 #   BOOL____01883 : `false`
 #   BOOL____01885 : `false`
 #   BOOL____01887 : `false`
-#   BOOL____01889 : `false`
-#   BOOL____01891 : `false`
-#   BOOL____01893 : `false`
-#   BOOL____01895 : `false`
-#   BOOL____01897 : `false`
-#   BOOL____01899 : `false`
-#   Real____00002 : 0
-#   Real____00004 : 1
+#   BOOL____01889 : `true`
+#   BOOL____01891 : `true`
+#   BOOL____01893 : `true`
+#   BOOL____01895 : `true`
+#   BOOL____01897 : `true`
+#   BOOL____01899 : `true`
+#   Real____00002 : 1
+#   Real____00004 : 0
 #   Real____00006 : 1
-#   Real____00008 : 0
+#   Real____00008 : 1
 #   Real____00010 : 1
 #   Real____00012 : 1
 #   Real____00014 : 1
@@ -1142,7 +1130,7 @@ with create_config(OPTIONS) as cfg:
 #   Real____00054 : 1
 #   Real____00056 : 1
 #   Real____00058 : 1
-#   Real____00060 : 1
+#   Real____00060 : 0
 #   Real____00062 : 1
 #   Real____00064 : 1
 #   Real____00066 : 1
@@ -1164,9 +1152,9 @@ with create_config(OPTIONS) as cfg:
 #   Real____00098 : 1
 #   Real____00100 : 1
 #   Real____00102 : 0
-#   Real____00104 : 1
-#   Real____00106 : 0
-#   Real____00108 : 0
+#   Real____00104 : 0
+#   Real____00106 : 1
+#   Real____00108 : 1
 #   Real____00110 : 1
 #   Real____00112 : 1
 #   Real____00114 : 1
@@ -1179,7 +1167,7 @@ with create_config(OPTIONS) as cfg:
 #   Real____00128 : 1
 #   Real____00130 : 1
 #   Real____00132 : 1
-#   Real____00134 : 1
+#   Real____00134 : 0
 #   Real____00136 : 0
 #   Real____00138 : 1
 #   Real____00140 : 1
@@ -1192,21 +1180,21 @@ with create_config(OPTIONS) as cfg:
 #   Real____00154 : 1
 #   Real____00156 : 1
 #   Real____00158 : 1
-#   Real____00160 : 1
-#   Real____00162 : 1
+#   Real____00160 : 0
+#   Real____00162 : 0
 #   Real____00164 : 1
-#   Real____00166 : 1
+#   Real____00166 : 0
 #   Real____00168 : 1
 #   Real____00170 : 1
 #   Real____00172 : 1
-#   Real____00174 : 1
+#   Real____00174 : 0
 #   Real____00176 : 1
 #   Real____00178 : 1
 #   Real____00180 : 1
 #   Real____00182 : 1
 #   Real____00184 : 1
 #   Real____00186 : 1
-#   Real____00188 : 0
+#   Real____00188 : 1
 #   Real____00190 : 1
 #   Real____00192 : 1
 #   Real____00194 : 1
@@ -1214,7 +1202,7 @@ with create_config(OPTIONS) as cfg:
 #   Real____00198 : 1
 #   Real____00200 : 1
 #   Real____00202 : 0
-#   Real____00204 : 1
+#   Real____00204 : 0
 #   Real____00206 : 0
 #   Real____00208 : 0
 #   Real____00210 : 1
@@ -1223,40 +1211,40 @@ with create_config(OPTIONS) as cfg:
 #   Real____00216 : 0
 #   Real____00218 : 0
 #   Real____00220 : 0
-#   Real____00222 : 0
+#   Real____00222 : 1
 #   Real____00224 : 0
 #   Real____00226 : 1
-#   Real____00228 : 0
+#   Real____00228 : 1
 #   Real____00230 : 0
 #   Real____00232 : 0
-#   Real____00234 : 1
+#   Real____00234 : 0
 #   Real____00236 : 0
-#   Real____00238 : 0
+#   Real____00238 : 1
 #   Real____00240 : 1
-#   Real____00242 : 0
-#   Real____00244 : 0
-#   Real____00246 : 1
+#   Real____00242 : 1
+#   Real____00244 : 1
+#   Real____00246 : 0
 #   Real____00248 : 1
 #   Real____00250 : 1
 #   Real____00252 : 1
 #   Real____00254 : 1
 #   Real____00256 : 1
 #   Real____00258 : 1
-#   Real____00260 : 1
-#   Real____00262 : 1
+#   Real____00260 : 0
+#   Real____00262 : 0
 #   Real____00264 : 1
-#   Real____00266 : 1
+#   Real____00266 : 0
 #   Real____00268 : 1
 #   Real____00270 : 1
 #   Real____00272 : 1
-#   Real____00274 : 1
+#   Real____00274 : 0
 #   Real____00276 : 1
 #   Real____00278 : 1
 #   Real____00280 : 1
 #   Real____00282 : 1
 #   Real____00284 : 1
 #   Real____00286 : 1
-#   Real____00288 : 0
+#   Real____00288 : 1
 #   Real____00290 : 1
 #   Real____00292 : 1
 #   Real____00294 : 1
@@ -1276,37 +1264,37 @@ with create_config(OPTIONS) as cfg:
 #   Real____00322 : 0
 #   Real____00324 : 0
 #   Real____00326 : 1
-#   Real____00328 : 0
+#   Real____00328 : 1
 #   Real____00330 : 0
 #   Real____00332 : 0
-#   Real____00334 : 1
+#   Real____00334 : 0
 #   Real____00336 : 0
-#   Real____00338 : 0
+#   Real____00338 : 1
 #   Real____00340 : 1
-#   Real____00342 : 0
-#   Real____00344 : 0
-#   Real____00346 : 1
+#   Real____00342 : 1
+#   Real____00344 : 1
+#   Real____00346 : 0
 #   Real____00348 : 1
 #   Real____00350 : 1
 #   Real____00352 : 1
-#   Real____00354 : 0
+#   Real____00354 : 1
 #   Real____00356 : 1
 #   Real____00358 : 1
-#   Real____00360 : 1
-#   Real____00362 : 1
-#   Real____00364 : 1
-#   Real____00366 : 1
-#   Real____00368 : 0
+#   Real____00360 : 0
+#   Real____00362 : 0
+#   Real____00364 : 0
+#   Real____00366 : 0
+#   Real____00368 : 1
 #   Real____00370 : 1
 #   Real____00372 : 1
-#   Real____00374 : 1
+#   Real____00374 : 0
 #   Real____00376 : 1
-#   Real____00378 : 0
+#   Real____00378 : 1
 #   Real____00380 : 1
 #   Real____00382 : 1
 #   Real____00384 : 1
 #   Real____00386 : 1
-#   Real____00388 : 0
+#   Real____00388 : 1
 #   Real____00390 : 1
 #   Real____00392 : 1
 #   Real____00394 : 1
@@ -1319,44 +1307,44 @@ with create_config(OPTIONS) as cfg:
 #   Real____00408 : 0
 #   Real____00410 : 0
 #   Real____00412 : 0
-#   Real____00414 : 0
+#   Real____00414 : 1
 #   Real____00416 : 0
 #   Real____00418 : 0
 #   Real____00420 : 0
 #   Real____00422 : 0
 #   Real____00424 : 0
-#   Real____00426 : 1
-#   Real____00428 : 0
+#   Real____00426 : 0
+#   Real____00428 : 1
 #   Real____00430 : 0
 #   Real____00432 : 0
-#   Real____00434 : 1
+#   Real____00434 : 0
 #   Real____00436 : 0
-#   Real____00438 : 0
+#   Real____00438 : 1
 #   Real____00440 : 1
-#   Real____00442 : 0
+#   Real____00442 : 1
 #   Real____00444 : 0
-#   Real____00446 : 1
+#   Real____00446 : 0
 #   Real____00448 : 1
-#   Real____00450 : 1
+#   Real____00450 : 0
 #   Real____00452 : 1
-#   Real____00454 : 0
+#   Real____00454 : 1
 #   Real____00456 : 1
 #   Real____00458 : 1
-#   Real____00460 : 1
-#   Real____00462 : 1
-#   Real____00464 : 1
+#   Real____00460 : 0
+#   Real____00462 : 0
+#   Real____00464 : 0
 #   Real____00466 : 0
-#   Real____00468 : 0
+#   Real____00468 : 1
 #   Real____00470 : 1
 #   Real____00472 : 1
-#   Real____00474 : 1
+#   Real____00474 : 0
 #   Real____00476 : 1
-#   Real____00478 : 0
+#   Real____00478 : 1
 #   Real____00480 : 1
 #   Real____00482 : 1
 #   Real____00484 : 1
 #   Real____00486 : 1
-#   Real____00488 : 0
+#   Real____00488 : 1
 #   Real____00490 : 1
 #   Real____00492 : 1
 #   Real____00494 : 1
@@ -1369,42 +1357,42 @@ with create_config(OPTIONS) as cfg:
 #   Real____00508 : 0
 #   Real____00510 : 0
 #   Real____00512 : 0
-#   Real____00514 : 0
+#   Real____00514 : 1
 #   Real____00516 : 0
 #   Real____00518 : 0
 #   Real____00520 : 0
 #   Real____00522 : 0
 #   Real____00524 : 0
-#   Real____00526 : 1
+#   Real____00526 : 0
 #   Real____00528 : 0
 #   Real____00530 : 0
 #   Real____00532 : 0
-#   Real____00534 : 1
+#   Real____00534 : 0
 #   Real____00536 : 0
 #   Real____00538 : 0
 #   Real____00540 : 1
 #   Real____00542 : 0
 #   Real____00544 : 0
-#   Real____00546 : 1
+#   Real____00546 : 0
 #   Real____00548 : 1
-#   Real____00550 : 1
+#   Real____00550 : 0
 #   Real____00552 : 1
-#   Real____00554 : 0
-#   Real____00556 : 1
+#   Real____00554 : 1
+#   Real____00556 : 0
 #   Real____00558 : 1
-#   Real____00560 : 1
-#   Real____00562 : 1
+#   Real____00560 : 0
+#   Real____00562 : 0
 #   Real____00564 : 0
 #   Real____00566 : 0
-#   Real____00568 : 0
-#   Real____00570 : 0
+#   Real____00568 : 1
+#   Real____00570 : 1
 #   Real____00572 : 1
-#   Real____00574 : 1
-#   Real____00576 : 0
-#   Real____00578 : 0
-#   Real____00580 : 0
+#   Real____00574 : 0
+#   Real____00576 : 1
+#   Real____00578 : 1
+#   Real____00580 : 1
 #   Real____00582 : 1
-#   Real____00584 : 0
+#   Real____00584 : 1
 #   Real____00586 : 1
 #   Real____00588 : 0
 #   Real____00590 : 1
@@ -1419,42 +1407,42 @@ with create_config(OPTIONS) as cfg:
 #   Real____00608 : 0
 #   Real____00610 : 0
 #   Real____00612 : 0
-#   Real____00614 : 0
+#   Real____00614 : 1
 #   Real____00616 : 0
 #   Real____00618 : 0
 #   Real____00620 : 0
 #   Real____00622 : 0
 #   Real____00624 : 0
-#   Real____00626 : 1
+#   Real____00626 : 0
 #   Real____00628 : 0
 #   Real____00630 : 0
 #   Real____00632 : 0
-#   Real____00634 : 1
+#   Real____00634 : 0
 #   Real____00636 : 0
 #   Real____00638 : 0
-#   Real____00640 : 1
+#   Real____00640 : 0
 #   Real____00642 : 0
 #   Real____00644 : 0
-#   Real____00646 : 1
-#   Real____00648 : 1
-#   Real____00650 : 1
-#   Real____00652 : 1
+#   Real____00646 : 0
+#   Real____00648 : 0
+#   Real____00650 : 0
+#   Real____00652 : 0
 #   Real____00654 : 0
-#   Real____00656 : 1
+#   Real____00656 : 0
 #   Real____00658 : 1
-#   Real____00660 : 1
+#   Real____00660 : 0
 #   Real____00662 : 0
 #   Real____00664 : 0
 #   Real____00666 : 0
 #   Real____00668 : 0
-#   Real____00670 : 0
+#   Real____00670 : 1
 #   Real____00672 : 0
 #   Real____00674 : 0
 #   Real____00676 : 0
-#   Real____00678 : 0
-#   Real____00680 : 0
-#   Real____00682 : 0
-#   Real____00684 : 0
+#   Real____00678 : 1
+#   Real____00680 : 1
+#   Real____00682 : 1
+#   Real____00684 : 1
 #   Real____00686 : 1
 #   Real____00688 : 0
 #   Real____00690 : 1
@@ -1462,7 +1450,7 @@ with create_config(OPTIONS) as cfg:
 #   Real____00694 : 1
 #   Real____00696 : 1
 #   Real____00698 : 1
-#   Real____00700 : 0
+#   Real____00700 : 1
 #   Real____00702 : 0
 #   Real____00704 : 0
 #   Real____00706 : 0
@@ -1482,13 +1470,13 @@ with create_config(OPTIONS) as cfg:
 #   Real____00734 : 0
 #   Real____00736 : 0
 #   Real____00738 : 0
-#   Real____00740 : 1
+#   Real____00740 : 0
 #   Real____00742 : 0
 #   Real____00744 : 0
-#   Real____00746 : 1
-#   Real____00748 : 1
+#   Real____00746 : 0
+#   Real____00748 : 0
 #   Real____00750 : 0
-#   Real____00752 : 1
+#   Real____00752 : 0
 #   Real____00754 : 0
 #   Real____00756 : 0
 #   Real____00758 : 1
@@ -1502,9 +1490,9 @@ with create_config(OPTIONS) as cfg:
 #   Real____00774 : 0
 #   Real____00776 : 0
 #   Real____00778 : 0
-#   Real____00780 : 0
-#   Real____00782 : 0
-#   Real____00784 : 0
+#   Real____00780 : 1
+#   Real____00782 : 1
+#   Real____00784 : 1
 #   Real____00786 : 1
 #   Real____00788 : 0
 #   Real____00790 : 1
@@ -1512,7 +1500,7 @@ with create_config(OPTIONS) as cfg:
 #   Real____00794 : 1
 #   Real____00796 : 1
 #   Real____00798 : 1
-#   Real____00800 : 0
+#   Real____00800 : 1
 #   Real____00802 : 0
 #   Real____00804 : 0
 #   Real____00806 : 0
@@ -1532,7 +1520,7 @@ with create_config(OPTIONS) as cfg:
 #   Real____00834 : 0
 #   Real____00836 : 0
 #   Real____00838 : 0
-#   Real____00840 : 1
+#   Real____00840 : 0
 #   Real____00842 : 0
 #   Real____00844 : 0
 #   Real____00846 : 0
@@ -1541,7 +1529,7 @@ with create_config(OPTIONS) as cfg:
 #   Real____00852 : 0
 #   Real____00854 : 0
 #   Real____00856 : 0
-#   Real____00858 : 1
+#   Real____00858 : 0
 #   Real____00860 : 0
 #   Real____00862 : 0
 #   Real____00864 : 0
@@ -1553,81 +1541,81 @@ with create_config(OPTIONS) as cfg:
 #   Real____00876 : 0
 #   Real____00878 : 0
 #   Real____00880 : 0
-#   Real____00882 : 0
+#   Real____00882 : 1
 #   Real____00884 : 0
 #   Real____00886 : 0
 #   Real____00888 : 0
-#   Real____00890 : 0
-#   Real____00892 : 0
-#   Real____00894 : 0
-#   Real____00896 : 0
-#   Real____00898 : 0
-#   Real____00900 : 0
-#   course_period__ARRAY__1 : 1
-#   course_period__ARRAY__2 : 4
-#   course_period__ARRAY__3 : 2
-#   course_period__ARRAY__4 : 1
+#   Real____00890 : 1
+#   Real____00892 : 1
+#   Real____00894 : 1
+#   Real____00896 : 1
+#   Real____00898 : 1
+#   Real____00900 : 1
+#   course_period__ARRAY__1 : 2
+#   course_period__ARRAY__2 : 1
+#   course_period__ARRAY__3 : 899/360
+#   course_period__ARRAY__4 : 899/360
 #   course_period__ARRAY__5 : 5
-#   course_period__ARRAY__6 : 3749999/1250000
-#   course_period__ARRAY__7 : 5
-#   course_period__ARRAY__8 : 3749999/1250000
-#   course_period__ARRAY__9 : 3749999/1250000
-#   course_period__ARRAY__10 : 14999997/5000000
-#   course_period__ARRAY__11 : 7499999/2500000
-#   course_period__ARRAY__12 : 14999997/5000000
-#   course_period__ARRAY__13 : 8
-#   course_period__ARRAY__14 : 14999999/5000000
-#   course_period__ARRAY__15 : 7499999/2500000
-#   course_period__ARRAY__16 : 14999999/5000000
-#   course_period__ARRAY__17 : 8
-#   course_period__ARRAY__18 : 2
-#   course_period__ARRAY__19 : 14999999/5000000
-#   course_period__ARRAY__20 : 10
-#   course_period__ARRAY__21 : 3
-#   course_period__ARRAY__22 : 3
-#   course_period__ARRAY__23 : 9
-#   course_period__ARRAY__24 : 9
-#   course_period__ARRAY__25 : 8
-#   course_period__ARRAY__26 : 44999999/5000000
-#   course_period__ARRAY__27 : 15000001/5000000
-#   course_period__ARRAY__28 : 8
-#   course_period__ARRAY__29 : 10
-#   course_period__ARRAY__30 : 8
-#   course_period__ARRAY__31 : 34999997/5000000
-#   course_period__ARRAY__32 : 29999999/5000000
-#   course_period__ARRAY__33 : 24999999/5000000
-#   course_period__ARRAY__34 : 7500001/2500000
-#   course_period__ARRAY__35 : 25000001/5000000
-#   course_period__ARRAY__36 : 17499999/2500000
-#   course_period__ARRAY__37 : 7
-#   course_period__ARRAY__38 : 29999999/5000000
-#   course_period__ARRAY__39 : 4
-#   course_period__ARRAY__40 : 6
-#   course_period__ARRAY__41 : 34999999/5000000
-#   course_period__ARRAY__42 : 6
-#   course_period__ARRAY__43 : 22499999/2500000
-#   course_period__ARRAY__44 : 9999999/5000000
-#   course_period__ARRAY__45 : 9
-#   course_period__ARRAY__46 : 44999999/5000000
-#   course_period__ARRAY__47 : 9
-#   course_period__ARRAY__48 : 9
-#   course_period__ARRAY__49 : 44999999/5000000
-#   course_period__ARRAY__50 : 7
-#   load__ARRAY__1 : 19
-#   load__ARRAY__2 : 4
-#   load__ARRAY__3 : 14
-#   load__ARRAY__4 : 8
-#   load__ARRAY__5 : 4
-#   load__ARRAY__6 : 11
-#   load__ARRAY__7 : 16
-#   load__ARRAY__8 : 30
-#   load__ARRAY__9 : 30
-#   load__ARRAY__10 : 16
-#   objective : 61/2
-#   x__ARRAY__1 : 1
-#   x__ARRAY__2 : 0
+#   course_period__ARRAY__6 : 1259/480
+#   course_period__ARRAY__7 : 8
+#   course_period__ARRAY__8 : 1259/480
+#   course_period__ARRAY__9 : 1259/480
+#   course_period__ARRAY__10 : 1979/720
+#   course_period__ARRAY__11 : 4
+#   course_period__ARRAY__12 : 1979/720
+#   course_period__ARRAY__13 : 5
+#   course_period__ARRAY__14 : 4139/720
+#   course_period__ARRAY__15 : 4139/1440
+#   course_period__ARRAY__16 : 3
+#   course_period__ARRAY__17 : 2699/1440
+#   course_period__ARRAY__18 : 2699/1440
+#   course_period__ARRAY__19 : 8459/1440
+#   course_period__ARRAY__20 : 9899/1440
+#   course_period__ARRAY__21 : 8459/1440
+#   course_period__ARRAY__22 : 7019/1440
+#   course_period__ARRAY__23 : 3
+#   course_period__ARRAY__24 : 9899/1440
+#   course_period__ARRAY__25 : 7019/1440
+#   course_period__ARRAY__26 : 7
+#   course_period__ARRAY__27 : 3179/480
+#   course_period__ARRAY__28 : 6
+#   course_period__ARRAY__29 : 11701/1440
+#   course_period__ARRAY__30 : 1
+#   course_period__ARRAY__31 : 2699/1440
+#   course_period__ARRAY__32 : 4
+#   course_period__ARRAY__33 : 1621/1440
+#   course_period__ARRAY__34 : 4859/720
+#   course_period__ARRAY__35 : 11339/1440
+#   course_period__ARRAY__36 : 7
+#   course_period__ARRAY__37 : 2
+#   course_period__ARRAY__38 : 9899/1440
+#   course_period__ARRAY__39 : 8
+#   course_period__ARRAY__40 : 11701/1440
+#   course_period__ARRAY__41 : 4501/480
+#   course_period__ARRAY__42 : 9
+#   course_period__ARRAY__43 : 9
+#   course_period__ARRAY__44 : 6
+#   course_period__ARRAY__45 : 10
+#   course_period__ARRAY__46 : 10
+#   course_period__ARRAY__47 : 10
+#   course_period__ARRAY__48 : 10
+#   course_period__ARRAY__49 : 10
+#   course_period__ARRAY__50 : 10
+#   load__ARRAY__1 : 4
+#   load__ARRAY__2 : 16
+#   load__ARRAY__3 : 18
+#   load__ARRAY__4 : 11
+#   load__ARRAY__5 : 13
+#   load__ARRAY__6 : 7
+#   load__ARRAY__7 : 11
+#   load__ARRAY__8 : 8
+#   load__ARRAY__9 : 17
+#   load__ARRAY__10 : 25
+#   objective : 266/9
+#   x__ARRAY__1 : 0
+#   x__ARRAY__2 : 1
 #   x__ARRAY__3 : 0
-#   x__ARRAY__4 : 1
+#   x__ARRAY__4 : 0
 #   x__ARRAY__5 : 0
 #   x__ARRAY__6 : 0
 #   x__ARRAY__7 : 0
@@ -1653,7 +1641,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__27 : 0
 #   x__ARRAY__28 : 0
 #   x__ARRAY__29 : 0
-#   x__ARRAY__30 : 0
+#   x__ARRAY__30 : 1
 #   x__ARRAY__31 : 0
 #   x__ARRAY__32 : 0
 #   x__ARRAY__33 : 0
@@ -1674,9 +1662,9 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__48 : 0
 #   x__ARRAY__49 : 0
 #   x__ARRAY__50 : 0
-#   x__ARRAY__51 : 0
+#   x__ARRAY__51 : 1
 #   x__ARRAY__52 : 0
-#   x__ARRAY__53 : 1
+#   x__ARRAY__53 : 0
 #   x__ARRAY__54 : 0
 #   x__ARRAY__55 : 0
 #   x__ARRAY__56 : 0
@@ -1691,7 +1679,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__65 : 0
 #   x__ARRAY__66 : 0
 #   x__ARRAY__67 : 0
-#   x__ARRAY__68 : 1
+#   x__ARRAY__68 : 0
 #   x__ARRAY__69 : 0
 #   x__ARRAY__70 : 0
 #   x__ARRAY__71 : 0
@@ -1710,7 +1698,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__84 : 0
 #   x__ARRAY__85 : 0
 #   x__ARRAY__86 : 0
-#   x__ARRAY__87 : 0
+#   x__ARRAY__87 : 1
 #   x__ARRAY__88 : 0
 #   x__ARRAY__89 : 0
 #   x__ARRAY__90 : 0
@@ -1739,14 +1727,14 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__113 : 0
 #   x__ARRAY__114 : 0
 #   x__ARRAY__115 : 0
-#   x__ARRAY__116 : 0
+#   x__ARRAY__116 : 1
 #   x__ARRAY__117 : 0
 #   x__ARRAY__118 : 0
 #   x__ARRAY__119 : 0
 #   x__ARRAY__120 : 0
-#   x__ARRAY__121 : 1
-#   x__ARRAY__122 : 1
-#   x__ARRAY__123 : 0
+#   x__ARRAY__121 : 0
+#   x__ARRAY__122 : 0
+#   x__ARRAY__123 : 1
 #   x__ARRAY__124 : 0
 #   x__ARRAY__125 : 0
 #   x__ARRAY__126 : 0
@@ -1775,7 +1763,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__149 : 0
 #   x__ARRAY__150 : 0
 #   x__ARRAY__151 : 0
-#   x__ARRAY__152 : 1
+#   x__ARRAY__152 : 0
 #   x__ARRAY__153 : 0
 #   x__ARRAY__154 : 0
 #   x__ARRAY__155 : 0
@@ -1784,7 +1772,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__158 : 0
 #   x__ARRAY__159 : 0
 #   x__ARRAY__160 : 0
-#   x__ARRAY__161 : 0
+#   x__ARRAY__161 : 1
 #   x__ARRAY__162 : 0
 #   x__ARRAY__163 : 0
 #   x__ARRAY__164 : 0
@@ -1805,14 +1793,14 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__179 : 0
 #   x__ARRAY__180 : 0
 #   x__ARRAY__181 : 0
-#   x__ARRAY__182 : 0
+#   x__ARRAY__182 : 1
 #   x__ARRAY__183 : 0
 #   x__ARRAY__184 : 0
 #   x__ARRAY__185 : 0
 #   x__ARRAY__186 : 0
 #   x__ARRAY__187 : 0
 #   x__ARRAY__188 : 0
-#   x__ARRAY__189 : 1
+#   x__ARRAY__189 : 0
 #   x__ARRAY__190 : 0
 #   x__ARRAY__191 : 0
 #   x__ARRAY__192 : 0
@@ -1830,13 +1818,13 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__204 : 0
 #   x__ARRAY__205 : 1
 #   x__ARRAY__206 : 0
-#   x__ARRAY__207 : 1
+#   x__ARRAY__207 : 0
 #   x__ARRAY__208 : 0
 #   x__ARRAY__209 : 0
 #   x__ARRAY__210 : 0
 #   x__ARRAY__211 : 0
 #   x__ARRAY__212 : 0
-#   x__ARRAY__213 : 0
+#   x__ARRAY__213 : 1
 #   x__ARRAY__214 : 0
 #   x__ARRAY__215 : 0
 #   x__ARRAY__216 : 0
@@ -1901,7 +1889,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__275 : 0
 #   x__ARRAY__276 : 0
 #   x__ARRAY__277 : 0
-#   x__ARRAY__278 : 0
+#   x__ARRAY__278 : 1
 #   x__ARRAY__279 : 0
 #   x__ARRAY__280 : 0
 #   x__ARRAY__281 : 0
@@ -1913,11 +1901,11 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__287 : 0
 #   x__ARRAY__288 : 0
 #   x__ARRAY__289 : 0
-#   x__ARRAY__290 : 1
+#   x__ARRAY__290 : 0
 #   x__ARRAY__291 : 0
-#   x__ARRAY__292 : 1
+#   x__ARRAY__292 : 0
 #   x__ARRAY__293 : 0
-#   x__ARRAY__294 : 0
+#   x__ARRAY__294 : 1
 #   x__ARRAY__295 : 0
 #   x__ARRAY__296 : 0
 #   x__ARRAY__297 : 0
@@ -1949,7 +1937,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__323 : 0
 #   x__ARRAY__324 : 0
 #   x__ARRAY__325 : 0
-#   x__ARRAY__326 : 0
+#   x__ARRAY__326 : 1
 #   x__ARRAY__327 : 0
 #   x__ARRAY__328 : 0
 #   x__ARRAY__329 : 0
@@ -1959,8 +1947,8 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__333 : 0
 #   x__ARRAY__334 : 0
 #   x__ARRAY__335 : 0
-#   x__ARRAY__336 : 0
-#   x__ARRAY__337 : 1
+#   x__ARRAY__336 : 1
+#   x__ARRAY__337 : 0
 #   x__ARRAY__338 : 0
 #   x__ARRAY__339 : 0
 #   x__ARRAY__340 : 0
@@ -1973,24 +1961,24 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__347 : 0
 #   x__ARRAY__348 : 0
 #   x__ARRAY__349 : 0
-#   x__ARRAY__350 : 1
+#   x__ARRAY__350 : 0
 #   x__ARRAY__351 : 0
 #   x__ARRAY__352 : 0
 #   x__ARRAY__353 : 0
 #   x__ARRAY__354 : 0
 #   x__ARRAY__355 : 0
 #   x__ARRAY__356 : 0
-#   x__ARRAY__357 : 0
+#   x__ARRAY__357 : 1
 #   x__ARRAY__358 : 0
 #   x__ARRAY__359 : 0
 #   x__ARRAY__360 : 0
 #   x__ARRAY__361 : 0
 #   x__ARRAY__362 : 0
-#   x__ARRAY__363 : 1
+#   x__ARRAY__363 : 0
 #   x__ARRAY__364 : 0
 #   x__ARRAY__365 : 0
 #   x__ARRAY__366 : 0
-#   x__ARRAY__367 : 1
+#   x__ARRAY__367 : 0
 #   x__ARRAY__368 : 0
 #   x__ARRAY__369 : 0
 #   x__ARRAY__370 : 0
@@ -1998,12 +1986,12 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__372 : 0
 #   x__ARRAY__373 : 0
 #   x__ARRAY__374 : 0
-#   x__ARRAY__375 : 1
+#   x__ARRAY__375 : 0
 #   x__ARRAY__376 : 0
 #   x__ARRAY__377 : 0
-#   x__ARRAY__378 : 1
+#   x__ARRAY__378 : 0
 #   x__ARRAY__379 : 0
-#   x__ARRAY__380 : 1
+#   x__ARRAY__380 : 0
 #   x__ARRAY__381 : 0
 #   x__ARRAY__382 : 0
 #   x__ARRAY__383 : 0
@@ -2012,7 +2000,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__386 : 0
 #   x__ARRAY__387 : 0
 #   x__ARRAY__388 : 0
-#   x__ARRAY__389 : 0
+#   x__ARRAY__389 : 1
 #   x__ARRAY__390 : 0
 #   x__ARRAY__391 : 0
 #   x__ARRAY__392 : 0
@@ -2046,8 +2034,8 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__420 : 0
 #   x__ARRAY__421 : 0
 #   x__ARRAY__422 : 0
-#   x__ARRAY__423 : 1
-#   x__ARRAY__424 : 1
+#   x__ARRAY__423 : 0
+#   x__ARRAY__424 : 0
 #   x__ARRAY__425 : 0
 #   x__ARRAY__426 : 0
 #   x__ARRAY__427 : 0
@@ -2065,13 +2053,13 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__439 : 0
 #   x__ARRAY__440 : 0
 #   x__ARRAY__441 : 0
-#   x__ARRAY__442 : 0
-#   x__ARRAY__443 : 0
+#   x__ARRAY__442 : 1
+#   x__ARRAY__443 : 1
 #   x__ARRAY__444 : 0
-#   x__ARRAY__445 : 1
+#   x__ARRAY__445 : 0
 #   x__ARRAY__446 : 0
-#   x__ARRAY__447 : 1
-#   x__ARRAY__448 : 1
+#   x__ARRAY__447 : 0
+#   x__ARRAY__448 : 0
 #   x__ARRAY__449 : 0
 #   x__ARRAY__450 : 0
 #   x__ARRAY__451 : 0
@@ -2093,7 +2081,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__467 : 0
 #   x__ARRAY__468 : 0
 #   x__ARRAY__469 : 0
-#   x__ARRAY__470 : 1
+#   x__ARRAY__470 : 0
 #   x__ARRAY__471 : 0
 #   x__ARRAY__472 : 0
 #   x__ARRAY__473 : 0
@@ -2102,7 +2090,7 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__476 : 0
 #   x__ARRAY__477 : 0
 #   x__ARRAY__478 : 0
-#   x__ARRAY__479 : 1
+#   x__ARRAY__479 : 0
 #   x__ARRAY__480 : 0
 #   x__ARRAY__481 : 0
 #   x__ARRAY__482 : 0
@@ -2118,9 +2106,9 @@ with create_config(OPTIONS) as cfg:
 #   x__ARRAY__492 : 0
 #   x__ARRAY__493 : 0
 #   x__ARRAY__494 : 0
-#   x__ARRAY__495 : 0
-#   x__ARRAY__496 : 0
-#   x__ARRAY__497 : 0
-#   x__ARRAY__498 : 0
-#   x__ARRAY__499 : 0
-#   x__ARRAY__500 : 0
+#   x__ARRAY__495 : 1
+#   x__ARRAY__496 : 1
+#   x__ARRAY__497 : 1
+#   x__ARRAY__498 : 1
+#   x__ARRAY__499 : 1
+#   x__ARRAY__500 : 1

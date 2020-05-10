@@ -40,9 +40,9 @@ DECLS = {
 }
 
 HARD = [
-    "(< l0 10)",
-    "(< l1 l2)",
-    "(< l2 14)",
+    "(< 10 l0)",
+    "(< l2 l1)",
+    "(< 14 l2)",
 ]
 
 SOFT = {}
@@ -70,5 +70,5 @@ with create_config(OPTIONS) as cfg:
 #
 # sat
 # (objectives
-#   (minmax 9)
+#   (minmax 16)
 # )

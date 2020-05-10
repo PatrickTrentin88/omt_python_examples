@@ -11,7 +11,7 @@ This project requires **Python 3.X** and [**gmplib**](https://gmplib.org/).
 
 # BUILDING
 
-Download the package of the latest version of `OptiMathSAT` (v. `1.6.4` or superior)
+Download the package of the latest version of `OptiMathSAT` (v. `1.7.0` or superior)
 inside the directory `optimathsat`, and unpack it. Then, run the `build.py` script
 as follows:
 

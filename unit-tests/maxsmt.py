@@ -63,7 +63,7 @@ with create_config(OPTIONS) as cfg:
         assert_string_formulas(env, HARD)
         assert_string_soft_formulas_dict(env, SOFT)
 
-        with create_minimize(env, "goal", upper="2") as obj:
+        with create_minimize(env, "goal") as obj:
 
             assert_objective(env, obj)
             solve(env)

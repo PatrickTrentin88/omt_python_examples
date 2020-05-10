@@ -30,6 +30,7 @@ from wrapper import * # pylint: disable=unused-wildcard-import,wildcard-import
 OPTIONS = {
     "opt.priority"     : "box",
     "model_generation" : "true",
+    "printer.fp_number_format" : "1",
 }
 
 DECLS = {
@@ -77,8 +78,8 @@ with create_config(OPTIONS) as cfg:
              create_maximize(env, "x0") as obj2, \
              create_minimize(env, "x1") as obj3, \
              create_minimize(env, "x2") as obj4, \
-             create_minimize(env, "x3", lower=_M_TEN, upper=_P_TEN) as obj5, \
-             create_maximize(env, "x3", lower=_M_TEN, upper=_P_TEN) as obj6:
+             create_minimize(env, "x3") as obj5, \
+             create_maximize(env, "x3") as obj6:
 
             assert_objective(env, obj1)
             assert_objective(env, obj2)
@@ -98,7 +99,7 @@ with create_config(OPTIONS) as cfg:
 #   (x0 3240099840_8_23)
 #   (x0 1092616192_8_23)
 #   (x1 0_8_23)
-#   (x2 4286578689_8_23)
-#   (x3 3240099840_8_23)
-#   (x3 1092616192_8_23)
+#   (x2 4286578689_8_23)    ; (_ NaN 8 24)
+#   (x3 -oo)
+#   (x3 +oo)
 # )

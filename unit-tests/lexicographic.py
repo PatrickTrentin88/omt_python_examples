@@ -76,7 +76,7 @@ with create_config(OPTIONS) as cfg:
         assert_string_soft_formulas_dict(env, SOFT)
 
         with create_minimize(env, "(+ (* q1 23) (* q2 21) (* q3 20) (* q4 10))") as obj1, \
-             create_minimize(env, "unused_suppliers", lower="0", upper="4") as obj2:
+             create_minimize(env, "unused_suppliers") as obj2:
             assert_objective(env, obj1)
             assert_objective(env, obj2)
 

@@ -62,7 +62,7 @@ with create_config(OPTIONS) as cfg:
         with create_minimize(env, "a") as obj1, \
              create_maximize(env, "b") as obj2, \
              create_minimize(env, "c") as obj3, \
-             create_minimize(env, "d", lower="0", upper="0") as obj4:
+             create_minimize(env, "d") as obj4:
 
             assert_objective(env, obj1)
             assert_objective(env, obj2)
@@ -92,9 +92,6 @@ with create_config(OPTIONS) as cfg:
             print("\n\t### DUMP MODELS ###\n")
             dump_models(env)
 
-            print("\n\t### DUMP OLD-STYLE STATS ###\n")
-            dump_stats(env)
-
 #
 ## EXPECTED OUTPUT
 #
@@ -107,7 +104,7 @@ with create_config(OPTIONS) as cfg:
 #   (a 42)
 #   (b 2999999/1000000)
 #   (c -1000000000)
-#   (d unsat)
+#   (d -1000000000)
 # )
 #
 #   -*- custom approximation -*-
@@ -115,7 +112,7 @@ with create_config(OPTIONS) as cfg:
 #   (a 42)
 #   (b 29999999999999999/10000000000000000)
 #   (c -999999999999999999999)
-#   (d unsat)
+#   (d -999999999999999999999)
 # )
 #
 #   -*- symbolic with internal representation -*-
@@ -123,7 +120,7 @@ with create_config(OPTIONS) as cfg:
 #   (a 42)
 #   (b (`+_rat` 3 (`*_rat` -1 eps)))
 #   (c (`*_rat` -1 oo))
-#   (d unsat)
+#   (d (`*_rat` -1 oo))
 # )
 #
 #   -*- symbolic with pretty string -*-
@@ -131,7 +128,7 @@ with create_config(OPTIONS) as cfg:
 #   (a 42)
 #   (b (- 3 epsilon))
 #   (c -oo)
-#   (d unsat)
+#   (d -oo)
 # )
 #
 #   ### DUMP MODELS ###
@@ -141,125 +138,30 @@ with create_config(OPTIONS) as cfg:
 # % (Finite) Model:
 #   a : 42
 #   b : 0
-#   c : 0
-#   d : 1
+#   c : 1
+#   d : 2
 #
 # % Goal: b
 # % Status: MSAT_OPT_SAT_OPTIMAL
 # % (Finite) Model:
 #   a : 42
 #   b : 2999999/1000000
-#   c : 0
-#   d : 1
+#   c : -1000000000
+#   d : -1000000000
 #
 # % Goal: c
 # % Status: MSAT_OPT_SAT_OPTIMAL
 # % (Finite) Model:
 #   a : 42
-#   b : 2999999/1000000
+#   b : 3999999/2000000
 #   c : -1000000000
-#   d : 0
+#   d : -221999989/2000000
 #
 # % Goal: d
-# % Status: MSAT_OPT_UNSAT
+# % Status: MSAT_OPT_SAT_OPTIMAL
 # % (Finite) Model:
-#   no model available
-#
-#
-#   ### DUMP OLD-STYLE STATS ###
-#
-# ### MINIMIZATION STATS ###
-# # objective:      a
-# # interval:     [ -INF, +INF ]
-# #
-# # Search terminated!
-# # Exact non-strict optimum found!
-# # Optimum: 42
-# # Search steps: 2 (sat: 1)
-# #  - binary: 0 (sat: 0)
-# #  - linear: 2 (sat: 1)
-# # Restarts: 3 [session: 3]
-# # Decisions: 11 (0 random) [session: 11 (0 random)]
-# # Propagations: 32 (0 theory) [session: 45 (0 theory)]
-# # Watched clauses visited: 23 (4 binary) [session: 28 (9 binary)]
-# # Conflicts: 3 (2 theory) [session: 3 (2 theory)]
-# # Error:
-# #  - absolute: 0
-# #  - relative: +INF
-# # Total time: 0.003 s
-# #  - first solution: 0.000 s
-# #  - optimization: 0.000 s
-# #  - certification: 0.003 s
-# # Memory used: 26.543 MB
-#
-# ### MAXIMIZATION STATS ###
-# # objective:      b
-# # interval:     [ -INF, +INF ]
-# #
-# # Search terminated!
-# # Exact strict optimum found!
-# # Optimum: <3
-# # Search steps: 2 (sat: 1)
-# #  - binary: 0 (sat: 0)
-# #  - linear: 2 (sat: 1)
-# # Restarts: 3 [session: 3]
-# # Decisions: 11 (0 random) [session: 11 (0 random)]
-# # Propagations: 32 (0 theory) [session: 45 (0 theory)]
-# # Watched clauses visited: 23 (4 binary) [session: 28 (9 binary)]
-# # Conflicts: 3 (2 theory) [session: 3 (2 theory)]
-# # Error:
-# #  - absolute: 0
-# #  - relative: +INF
-# # Total time: 0.003 s
-# #  - first solution: 0.001 s
-# #  - optimization: 0.000 s
-# #  - certification: 0.002 s
-# # Memory used: 26.543 MB
-#
-# ### MINIMIZATION STATS ###
-# # objective:      c
-# # interval:     [ -INF, +INF ]
-# #
-# # Search terminated!
-# # Exact non-strict optimum found!
-# # Optimum: -INF
-# # Search steps: 1 (sat: 1)
-# #  - binary: 0 (sat: 0)
-# #  - linear: 1 (sat: 1)
-# # Restarts: 2 [session: 2]
-# # Decisions: 10 (0 random) [session: 10 (0 random)]
-# # Propagations: 14 (0 theory) [session: 27 (0 theory)]
-# # Watched clauses visited: 5 (2 binary) [session: 10 (7 binary)]
-# # Conflicts: 0 (0 theory) [session: 0 (0 theory)]
-# # Error:
-# #  - absolute: 0
-# #  - relative: +INF
-# # Total time: 0.003 s
-# #  - first solution: 0.002 s
-# #  - optimization: 0.000 s
-# #  - certification: 0.001 s
-# # Memory used: 26.543 MB
-#
-# ### MINIMIZATION STATS ###
-# # objective:      d
-# # interval:     [ 0, 0 ]
-# #
-# # Search terminated!
-# # No solution.
-# # Search steps: 0 (sat: 0)
-# #  - binary: 0 (sat: 0)
-# #  - linear: 0 (sat: 0)
-# # Restarts: 0 [session: 0]
-# # Decisions: 0 (0 random) [session: 0 (0 random)]
-# # Propagations: 0 (0 theory) [session: 0 (0 theory)]
-# # Watched clauses visited: 0 (0 binary) [session: 0 (0 binary)]
-# # Conflicts: 0 (0 theory) [session: 0 (0 theory)]
-# # Error:
-# #  - absolute: 0
-# #  - relative: 0
-# # Total time: 0.000 s
-# #  - first solution: 0.000 s
-# #  - optimization: 0.000 s
-# #  - certification: 0.000 s
-# # Memory used: 19.410 MB
+#   a : 42
+#   b : 3999999/2000000
+#   c : -1000000000
+#   d : -1000000000
 #

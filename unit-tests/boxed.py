@@ -39,7 +39,7 @@ DECLS = {
     "fp" : ()                       # ((name, ebits, sbits), ... )
 }
 
-HARD = ["(<= 42 x)", "(<= y x)"]
+HARD = ["(<= 42 x)", "(<= y x)", "(< z 50)"]
 
 SOFT = {}
 
@@ -56,7 +56,7 @@ with create_config(OPTIONS) as cfg:
 
         with create_minimize(env, "x") as obj1, \
              create_maximize(env, "y") as obj2, \
-             create_maximize(env, "z", upper="50") as obj3:
+             create_maximize(env, "z") as obj3:
 
             assert_objective(env, obj1)
             assert_objective(env, obj2)
@@ -72,5 +72,5 @@ with create_config(OPTIONS) as cfg:
 # (objectives
 #   (x 42)
 #   (y +oo)
-#   (z 50)
+#   (z (- 50 epsilon))
 # )

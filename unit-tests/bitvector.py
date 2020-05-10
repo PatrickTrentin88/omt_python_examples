@@ -89,7 +89,7 @@ with create_config(OPTIONS) as cfg:
         assert_string_soft_formulas_dict(env, SOFT)
 
         with create_minimize(env, "x") as obj1, \
-             create_minimize(env, "x", lower="((_ to_bv 8) (- 100))", signed=True) as obj2:
+             create_minimize(env, "x", signed=True) as obj2:
             assert_objective(env, obj1)
             assert_objective(env, obj2)
 
@@ -101,6 +101,6 @@ with create_config(OPTIONS) as cfg:
 #
 # sat
 # (objectives
-#     (x 8_8)
-#     (x 240_8)
+#   (x 8_8)
+#   (x 151_8)
 # )

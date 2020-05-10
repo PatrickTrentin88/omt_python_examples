@@ -30,7 +30,6 @@ from wrapper import * # pylint: disable=unused-wildcard-import,wildcard-import
 OPTIONS = {
     "opt.verbose"               : "true",
     "opt.strategy"              : "bin",
-    "opt.bin.first_step_linear" : "false",
     "opt.bin.max_consecutive"   : "2",
     "opt.bin.pivot_position"    : "0.5",
 }
@@ -48,7 +47,7 @@ with create_config(OPTIONS) as cfg:
             assert not MSAT_ERROR_TERM(TERM)
             msat_assert_formula(env, TERM)
 
-        with create_minimize(env, "objective", lower="23", upper="100") as obj:
+        with create_minimize(env, "objective") as obj:
             assert_objective(env, obj)
 
             solve(env)
@@ -58,43 +57,57 @@ with create_config(OPTIONS) as cfg:
 #
 ## EXPECTED OUTPUT
 #
-# # obj(.cost_0) := objective
-# # obj(.cost_0) - search start: [ 23, 100 ]
-# # obj(.cost_0) - binary step: 1
-# # obj(.cost_0) - pivot: (not (<= (/ 123 2) .cost_0))
-# # obj(.cost_0) -  new: 112/3
-# # obj(.cost_0) -  update upper: [ 23, 112/3 ]
-# # obj(.cost_0) - binary step: 2
-# # obj(.cost_0) - pivot: (not (<= (/ 181 6) .cost_0))
-# # obj(.cost_0) -  new: 30
-# # obj(.cost_0) -  update upper: [ 23, 30 ]
-# # obj(.cost_0) - binary step: 3
-# # obj(.cost_0) - pivot: (not (<= (/ 53 2) .cost_0))
-# # obj(.cost_0) -  update lower: [ 53/2, 30 ]
-# # obj(.cost_0) - binary step: 4
-# # obj(.cost_0) - pivot: (not (<= (/ 113 4) .cost_0))
-# # obj(.cost_0) -  new: 197/7
-# # obj(.cost_0) -  update upper: [ 53/2, 197/7 ]
-# # obj(.cost_0) - binary step: 5
-# # obj(.cost_0) - pivot: (not (<= (/ 765 28) .cost_0))
-# # obj(.cost_0) -  new: 109/4
-# # obj(.cost_0) -  update upper: [ 53/2, 109/4 ]
-# # obj(.cost_0) - binary step: 6
-# # obj(.cost_0) - pivot: (not (<= (/ 215 8) .cost_0))
-# # obj(.cost_0) -  update lower: [ 215/8, 109/4 ]
-# # obj(.cost_0) - binary step: 7
-# # obj(.cost_0) - pivot: (not (<= (/ 433 16) .cost_0))
-# # obj(.cost_0) -  new: 27
-# # obj(.cost_0) -  update upper: [ 215/8, 27 ]
-# # obj(.cost_0) - binary step: 8
-# # obj(.cost_0) - pivot: (not (<= (/ 431 16) .cost_0))
-# # obj(.cost_0) -  update lower: [ 431/16, 27 ]
-# # obj(.cost_0) - binary step: 9
-# # obj(.cost_0) - pivot: (not (<= (/ 863 32) .cost_0))
-# # obj(.cost_0) -  update lower: [ 863/32, 27 ]
-# # obj(.cost_0) - linear step: 1
-# # obj(.cost_0) - search end: sat_optimal
-# # obj(.cost_0) -  update lower: [ 27, 27 ]
+# # obj(objective) := objective
+# # obj(objective) - search start: [ (- oo), oo ]
+# # obj(objective) - linear step: 1
+# # obj(objective) -  new: 75
+# # obj(objective) -  update upper: [ (- oo), 75 ]
+# # obj(objective) - binary step: 1
+# # obj(objective) - pivot: (not (<= (to_real 0) objective))
+# # obj(objective) -  update lower: [ 0, 75 ]
+# # obj(objective) - binary step: 2
+# # obj(objective) - pivot: (not (<= (/ 75 2) objective))
+# # obj(objective) -  new: (/ 112 3)
+# # obj(objective) -  update upper: [ 0, (/ 112 3) ]
+# # obj(objective) - binary step: 3
+# # obj(objective) - pivot: (not (<= (/ 56 3) objective))
+# # obj(objective) -  update lower: [ (/ 56 3), (/ 112 3) ]
+# # obj(objective) - binary step: 4
+# # obj(objective) - pivot: (not (<= (to_real 28) objective))
+# # obj(objective) -  new: (/ 223 8)
+# # obj(objective) -  update upper: [ (/ 56 3), (/ 223 8) ]
+# # obj(objective) - binary step: 5
+# # obj(objective) - pivot: (not (<= (/ 1117 48) objective))
+# # obj(objective) -  update lower: [ (/ 1117 48), (/ 223 8) ]
+# # obj(objective) - binary step: 6
+# # obj(objective) - pivot: (not (<= (/ 2455 96) objective))
+# # obj(objective) -  update lower: [ (/ 2455 96), (/ 223 8) ]
+# # obj(objective) - linear step: 2
+# # obj(objective) -  new: (/ 250 9)
+# # obj(objective) -  update upper: [ (/ 2455 96), (/ 250 9) ]
+# # obj(objective) - binary step: 7
+# # obj(objective) - pivot: (not (<= (/ 15365 576) objective))
+# # obj(objective) -  update lower: [ (/ 15365 576), (/ 250 9) ]
+# # obj(objective) - binary step: 8
+# # obj(objective) - pivot: (not (<= (/ 3485 128) objective))
+# # obj(objective) -  new: (/ 245 9)
+# # obj(objective) -  update upper: [ (/ 15365 576), (/ 245 9) ]
+# # obj(objective) - binary step: 9
+# # obj(objective) - pivot: (not (<= (/ 31045 1152) objective))
+# # obj(objective) -  update lower: [ (/ 31045 1152), (/ 245 9) ]
+# # obj(objective) - binary step: 10
+# # obj(objective) - pivot: (not (<= (/ 62405 2304) objective))
+# # obj(objective) -  new: 27
+# # obj(objective) -  update upper: [ (/ 31045 1152), 27 ]
+# # obj(objective) - binary step: 11
+# # obj(objective) - pivot: (not (<= (/ 62149 2304) objective))
+# # obj(objective) -  update lower: [ (/ 62149 2304), 27 ]
+# # obj(objective) - binary step: 12
+# # obj(objective) - pivot: (not (<= (/ 124357 4608) objective))
+# # obj(objective) -  update lower: [ (/ 124357 4608), 27 ]
+# # obj(objective) - linear step: 3
+# # obj(objective) - search end: sat_optimal
+# # obj(objective) -  update lower: [ 27, 27 ]
 # sat
 # (objectives
 #   (objective 27)
