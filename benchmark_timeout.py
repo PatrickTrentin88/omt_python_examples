@@ -20,12 +20,11 @@ sys.path.append(INCLUDE_DIR)
 sys.path.append(LIB_DIR)
 
 # pylint:disable=import-error, wrong-import-position
-# noqa: E402
 from wrapper import create_config, create_env, msat_set_termination_test, \
                     msat_from_smtlib2, MSAT_ERROR_TERM, msat_assert_formula, \
                     Timer, string_to_term, msat_make_minimize, \
                     assert_objective, solve, get_objectives_pretty, \
-                    load_model, dump_model
+                    load_model, dump_model  # noqa: E402
 
 ###############################################################################
 ###############################################################################
