@@ -6,7 +6,8 @@ using the **Python API** interface of `OptiMathSAT`.
 
 # REQUIREMENTS
 
-This project requires **Python 3.X** and [**gmplib**](https://gmplib.org/).
+This project requires **Python 3.X**, **python3-setuptools**,
+**gcc**, **g++**, and [**gmplib**](https://gmplib.org/).
 
 
 # BUILDING
