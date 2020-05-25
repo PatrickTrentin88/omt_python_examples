@@ -19,11 +19,17 @@ LIB_DIR = os.path.join(BASE_DIR, 'lib')
 sys.path.append(INCLUDE_DIR)
 sys.path.append(LIB_DIR)
 
-###############################################################################
-###############################################################################
-###############################################################################
+# pylint:disable=import-error, wrong-import-position
+# noqa: E402
+from wrapper import create_config, create_env, msat_set_termination_test, \
+                    msat_from_smtlib2, MSAT_ERROR_TERM, msat_assert_formula, \
+                    Timer, string_to_term, msat_make_minimize, \
+                    assert_objective, solve, get_objectives_pretty, \
+                    load_model, dump_model
 
-from wrapper import * # pylint: disable=unused-wildcard-import,wildcard-import
+###############################################################################
+###############################################################################
+###############################################################################
 
 # DATA
 
@@ -31,36 +37,39 @@ OPTIONS = {
     "model_generation": "true",
     "opt.soft_timeout": "false",
     "opt.verbose": "true",
+    "opt.maxsmt_engine": "omt",  # Possible values: omt, maxres
+    "opt.priority": "lex",  # Possible values: box, lex
 }
 
-filename: str = os.path.join(BASE_DIR, 'smt2-files', 'Mz1-noAbs', 'A004-dzn-fzn_v3.smt2')
+filename: str = os.path.join(BASE_DIR, 'smt2-files', 'Mz2-noAbs',
+                             'A001-dzn-fzn_v3.smt2')
 
 # PROGRAM
 
 with create_config(OPTIONS) as cfg:
     with create_env(cfg, optimizing=True) as env:
         with open(filename, 'r') as f:
-            formula = msat_from_smtlib2(env, f.read())
-            if (MSAT_ERROR_TERM(formula)):
+            FORMULA = msat_from_smtlib2(env, f.read())
+            if MSAT_ERROR_TERM(FORMULA):
                 print(f'''Unable to parse {filename}''')
-            msat_assert_formula(env, formula)
+            msat_assert_formula(env, FORMULA)
 
             # Set a timeout
-            CALLBACK = Timer(3.0)
+            CALLBACK = Timer(300.0)
             msat_set_termination_test(env, CALLBACK)
 
             signed: bool = True
 
             try:
-                tcf = string_to_term(env, 'obj')
+                TCF = string_to_term(env, 'obj')
                 # TODO: Any way to add lower und upper bounds?
-                obj = msat_make_minimize(env, tcf, signed)
-                assert_objective(env, obj)
+                OBJ = msat_make_minimize(env, TCF, signed)
+                assert_objective(env, OBJ)
                 solve(env)
                 get_objectives_pretty(env)
-                print('Model: minimize obj')
-                load_model(env, obj)
+                print('Model: minimize objective')
+                load_model(env, OBJ)
                 dump_model(env)
-            except Exception as e:
-                print(e)
-
+            # TODO: pylint:disable=broad-except
+            except Exception as exception:
+                print(f'''Exception raised: {exception}''')
