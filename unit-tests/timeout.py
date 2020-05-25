@@ -48,7 +48,7 @@ with create_config(OPTIONS) as cfg:
             msat_assert_formula(env, TERM)
 
         # set a timeout of 2.0 seconds
-        CALLBACK = Timer(2.0)
+        CALLBACK = Timer(5.0)
         msat_set_termination_test(env, CALLBACK)
 
         with create_minimize(env, "objective") as obj:
