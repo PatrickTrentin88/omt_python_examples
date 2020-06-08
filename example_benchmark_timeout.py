@@ -40,37 +40,36 @@ OPTIONS = {
     "opt.priority": "lex",  # Possible values: box, lex
 }
 
+#filename: str = os.path.join(BASE_DIR, 'smt2-files', 'Mz2-noAbs',
+filename: str = os.path.join(BASE_DIR, 'examples',
+                             'A012-dzn-fzn_v3.smt2')
 
 # PROGRAM
 
-#smt2_data: str = str(sys.stdin.read())
-timeout_msec: int = int(sys.argv[1])/1000
-smt2_data: str = str(sys.argv[2])
-smt2_data = smt2_data.replace('\\n', '\n')
-
 with create_config(OPTIONS) as cfg:
     with create_env(cfg, optimizing=True) as env:
-        FORMULA = msat_from_smtlib2(env, smt2_data)
-        if MSAT_ERROR_TERM(FORMULA):
-            print(f'''Unable to parse {filename}''')
-        msat_assert_formula(env, FORMULA)
+        with open(filename, 'r') as f:
+            FORMULA = msat_from_smtlib2(env, f.read())
+            if MSAT_ERROR_TERM(FORMULA):
+                print(f'''Unable to parse {filename}''')
+            msat_assert_formula(env, FORMULA)
 
-        # Set a timeout
-        CALLBACK = Timer(timeout_msec)
-        msat_set_termination_test(env, CALLBACK)
+            # Set a timeout
+            CALLBACK = Timer(300.0)
+            msat_set_termination_test(env, CALLBACK)
 
-        signed: bool = True
+            signed: bool = True
 
-        try:
-            TCF = string_to_term(env, 'obj')
-            # TODO: Any way to add lower und upper bounds?
-            OBJ = msat_make_minimize(env, TCF, signed)
-            assert_objective(env, OBJ)
-            solve(env)
-            get_objectives_pretty(env)
-            print('Model: minimize objective')
-            load_model(env, OBJ)
-            dump_model(env)
-        # TODO: pylint:disable=broad-except
-        except Exception as exception:
-            print(f'''Exception raised: {exception}''')
+            try:
+                TCF = string_to_term(env, 'obj')
+                # TODO: Any way to add lower und upper bounds?
+                OBJ = msat_make_minimize(env, TCF, signed)
+                assert_objective(env, OBJ)
+                solve(env)
+                get_objectives_pretty(env)
+                print('Model: minimize objective')
+                load_model(env, OBJ)
+                dump_model(env)
+            # TODO: pylint:disable=broad-except
+            except Exception as exception:
+                print(f'''Exception raised: {exception}''')
