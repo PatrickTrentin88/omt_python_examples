@@ -43,7 +43,6 @@ OPTIONS = {
 
 # PROGRAM
 
-#smt2_data: str = str(sys.stdin.read())
 timeout_msec: int = int(sys.argv[1])/1000
 smt2_data: str = str(sys.argv[2])
 smt2_data = smt2_data.replace('\\n', '\n')
@@ -52,7 +51,7 @@ with create_config(OPTIONS) as cfg:
     with create_env(cfg, optimizing=True) as env:
         FORMULA = msat_from_smtlib2(env, smt2_data)
         if MSAT_ERROR_TERM(FORMULA):
-            print(f'''Unable to parse {filename}''')
+            print('Unable to parse')
         msat_assert_formula(env, FORMULA)
 
         # Set a timeout
@@ -63,7 +62,6 @@ with create_config(OPTIONS) as cfg:
 
         try:
             TCF = string_to_term(env, 'obj')
-            # TODO: Any way to add lower und upper bounds?
             OBJ = msat_make_minimize(env, TCF, signed)
             assert_objective(env, OBJ)
             solve(env)
