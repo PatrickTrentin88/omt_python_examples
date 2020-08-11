@@ -12,7 +12,7 @@ This project requires **Python 3.X**, **python3-setuptools**,
 
 # BUILDING
 
-Download the package of the latest version of `OptiMathSAT` (v. `1.7.0` or superior)
+Download the package of the latest version of `OptiMathSAT` (v. `1.7.2` or superior)
 inside the directory `optimathsat`, and unpack it. Then, run the `build.py` script
 as follows:
 
