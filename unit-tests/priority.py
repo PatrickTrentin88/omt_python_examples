@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Pareto OMT unit-test.
+Priority OMT unit-test.
 """
 
 ###
@@ -55,7 +55,7 @@ HARD = [
 SOFT = {}
 
 ###
-### PARETO UNIT-TEST
+### PRIORITY UNIT-TEST
 ###
 
 with create_config(OPTIONS) as cfg:
