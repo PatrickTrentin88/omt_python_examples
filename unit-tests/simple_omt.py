@@ -101,6 +101,6 @@ with create_config(OPTIONS) as cfg:
 # sat
 #   B1 : `true`
 #   x1 : 7
-#   x2 : 8
-#   cost : 15
+#   x2 : 10
+#   cost : 17
 #   minmax : 7

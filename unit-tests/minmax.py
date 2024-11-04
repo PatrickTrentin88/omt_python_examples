@@ -29,6 +29,7 @@ from wrapper import * # pylint: disable=unused-wildcard-import,wildcard-import
 
 OPTIONS = {
     "opt.priority"     : "box",
+    "model_generation" : "true",
 }
 
 DECLS = {
